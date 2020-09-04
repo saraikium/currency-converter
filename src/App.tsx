@@ -1,17 +1,12 @@
 import React from "react";
-import {SafeAreaView, View, Text} from "react-native";
-
-declare const global: {HermesInternal: null | {}};
+import {} from "react-native";
+import {Home} from "./screens/Home";
 
 const App = () => {
   return (
-    <>
-      <SafeAreaView>
-        <View>
-          <Text>Welcome to React Native</Text>
-        </View>
-      </SafeAreaView>
-    </>
+    // <SafeAreaView>
+    <Home />
+    // </SafeAreaView>
   );
 };
 

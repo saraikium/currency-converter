@@ -3,11 +3,7 @@ import {} from "react-native";
 import {Home} from "./screens/Home";
 
 const App = () => {
-  return (
-    // <SafeAreaView>
-    <Home />
-    // </SafeAreaView>
-  );
+  return <Home />;
 };
 
 export default App;

@@ -1,20 +1,21 @@
+import {format} from "date-fns";
 import React, {useState} from "react";
 import {
-  StyleSheet,
-  View,
-  StatusBar,
-  Image,
-  Dimensions,
   Alert,
+  Dimensions,
+  Image,
+  StatusBar,
+  StyleSheet,
   Text,
-  ScrollView
+  View
 } from "react-native";
-import {format} from "date-fns";
-import {CurrencyInput} from "../components/CurrencyInput";
-import {Button} from "../components/Button";
-import colors from "../constants/colors";
+
 import backgroundImage from "../assets/images/background.png";
 import logo from "../assets/images/logo.png";
+import {Button} from "../components/Button";
+import {CurrencyInput} from "../components/CurrencyInput";
+import {KeyboardAwareScrollView} from "../components/KeyboardAwareScrollView";
+import colors from "../constants/colors";
 
 const screen = Dimensions.get("window");
 
@@ -24,6 +25,10 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     backgroundColor: colors.blue
   },
+  content: {
+    paddingTop: screen.height * 0.2,
+    paddingBottom: 20
+  },
   logoContainer: {
     justifyContent: "center",
     alignItems: "center",
@@ -31,12 +36,12 @@ const styles = StyleSheet.create({
   },
   logoBackground: {
     width: screen.width * 0.45,
-    height: screen.width * 0.45
+    height: screen.height * 0.45
   },
   logo: {
     position: "absolute",
     width: screen.width * 0.25,
-    height: screen.width * 0.25
+    height: screen.height * 0.25
   },
   textHeader: {
     color: colors.white,
@@ -64,7 +69,7 @@ export function Home() {
   const swapCurrencies = () => {};
   return (
     <View style={styles.container}>
-      <ScrollView>
+      <KeyboardAwareScrollView>
         <StatusBar barStyle="light-content" backgroundColor={colors.blue} />
         <View style={styles.logoContainer}>
           <Image
@@ -99,7 +104,7 @@ export function Home() {
           )}`}
         </Text>
         <Button text="Reverse Currencies" onPress={() => swapCurrencies()} />
-      </ScrollView>
+      </KeyboardAwareScrollView>
     </View>
   );
 }

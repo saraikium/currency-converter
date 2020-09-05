@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
 interface Props {
   title: string;
   onPress(): void;
-  rightIcon?: React.ReactElement;
+  rightIcon?: React.ReactElement | null;
 }
 
 export const RowItem = ({title, onPress, rightIcon}: Props) => (

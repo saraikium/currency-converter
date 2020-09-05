@@ -103,7 +103,10 @@ export function Home({navigation}: HomeProps) {
             value="123"
             currency="USD"
             onChangeCurrency={() => {
-              navigation.push("CurrencyList", {title: "Base Currency"});
+              navigation.push("CurrencyList", {
+                title: "Base Currency",
+                activeCurrency: baseCurrency
+              });
             }}
           />
           <CurrencyInput
@@ -111,7 +114,10 @@ export function Home({navigation}: HomeProps) {
             currency="GBP"
             disabled
             onChangeCurrency={() => {
-              navigation.push("CurrencyList", {title: "Quote Currency"});
+              navigation.push("CurrencyList", {
+                title: "Quote Currency",
+                activeCurrency: quoteCurrency
+              });
             }}
           />
         </View>

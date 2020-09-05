@@ -1,10 +1,15 @@
+interface CurrencyListProps {
+  title: string;
+  activeCurrency: string;
+}
+
 export type MainStackParamsList = {
   Home: undefined;
   Options: undefined;
-  CurrencyList: {title: string};
+  CurrencyList: CurrencyListProps;
 };
 
 export type ModalStackParamsList = {
   Main: undefined;
-  CurrencyList: {title: string};
+  CurrencyList: CurrencyListProps;
 };

@@ -6,6 +6,7 @@ interface CurrencyListProps {
 export type MainStackParamsList = {
   Home: undefined;
   Options: undefined;
+  Themes: undefined;
   CurrencyList: CurrencyListProps;
 };
 

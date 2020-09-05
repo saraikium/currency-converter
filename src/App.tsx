@@ -13,6 +13,7 @@ import {TouchableOpacity} from "react-native-gesture-handler";
 import Entypo from "react-native-vector-icons/Entypo";
 import colors from "./constants/colors";
 import {CurrencyContextProvider} from "./context/CurrencyContext";
+import {Themes} from "./screens/Themes";
 
 const MainStack = createStackNavigator<MainStackParamsList>();
 const ModalStack = createStackNavigator<ModalStackParamsList>();
@@ -24,7 +25,12 @@ const MainStackScreen = () => (
       component={Home}
       options={{headerShown: false}}
     />
-    <MainStack.Screen name="Options" component={Options} />
+    <MainStack.Screen
+      name="Options"
+      component={Options}
+      options={{headerShown: true}}
+    />
+    <MainStack.Screen name="Themes" component={Themes} />
   </MainStack.Navigator>
 );
 

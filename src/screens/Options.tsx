@@ -1,11 +1,6 @@
 import React from "react";
-import {
-  SafeAreaView,
-  ScrollView,
-  Linking,
-  Alert,
-  StatusBar
-} from "react-native";
+import {ScrollView, Linking, Alert, StatusBar} from "react-native";
+import {SafeAreaView} from "react-native-safe-area-context";
 import Entypo from "react-native-vector-icons/Entypo";
 
 import colors from "../constants/colors";

@@ -4,17 +4,17 @@ import {NavigationContainer} from "@react-navigation/native";
 import {createStackNavigator} from "@react-navigation/stack";
 import {Home} from "./screens/Home";
 import {Options} from "./screens/Options";
-
-type MainStackParamsList = {
-  Home: undefined;
-  Options: undefined;
-};
+import {MainStackParamsList} from "./screens/types";
 
 const MainStack = createStackNavigator<MainStackParamsList>();
 
 const MainStackScreen = () => (
-  <MainStack.Navigator initialRouteName="Options">
-    <MainStack.Screen name="Home" component={Home} />
+  <MainStack.Navigator>
+    <MainStack.Screen
+      name="Home"
+      component={Home}
+      options={{headerShown: false}}
+    />
     <MainStack.Screen name="Options" component={Options} />
   </MainStack.Navigator>
 );

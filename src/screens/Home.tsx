@@ -9,13 +9,18 @@ import {
   Text,
   View
 } from "react-native";
-
+import {SafeAreaView} from "react-native-safe-area-context";
+import {TouchableOpacity} from "react-native-gesture-handler";
+import Entypo from "react-native-vector-icons/Entypo";
+//
 import backgroundImage from "../assets/images/background.png";
 import logo from "../assets/images/logo.png";
 import {Button} from "../components/Button";
 import {CurrencyInput} from "../components/CurrencyInput";
 import {KeyboardAwareScrollView} from "../components/KeyboardAwareScrollView";
 import colors from "../constants/colors";
+import {StackNavigationProp} from "@react-navigation/stack";
+import {MainStackParamsList} from "./types";
 
 const screen = Dimensions.get("window");
 
@@ -26,7 +31,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.blue
   },
   content: {
-    paddingTop: screen.height * 0.2,
+    paddingTop: screen.height * 0.1,
     paddingBottom: 20
   },
   logoContainer: {
@@ -57,10 +62,19 @@ const styles = StyleSheet.create({
   },
   inputContainer: {
     marginBottom: 10
+  },
+  options: {
+    alignItems: "flex-end",
+    marginRight: 20
   }
 });
 
-export function Home() {
+type HomeProps = {
+  navigation: StackNavigationProp<MainStackParamsList, "Home">;
+};
+
+export function Home({navigation}: HomeProps) {
+  //
   const [baseCurrency, setBaseCurrency] = useState("USD");
   const [quoteCurrency, setQuoteCurrency] = useState("GBP");
   const [conversionRate, setConvertionRate] = useState(0.843);
@@ -68,9 +82,14 @@ export function Home() {
 
   const swapCurrencies = () => {};
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <KeyboardAwareScrollView>
         <StatusBar barStyle="light-content" backgroundColor={colors.blue} />
+        <View style={styles.options}>
+          <TouchableOpacity onPress={() => navigation.navigate("Options")}>
+            <Entypo name="cog" size={32} color={colors.white} />
+          </TouchableOpacity>
+        </View>
         <View style={styles.logoContainer}>
           <Image
             source={backgroundImage}
@@ -105,6 +124,6 @@ export function Home() {
         </Text>
         <Button text="Reverse Currencies" onPress={() => swapCurrencies()} />
       </KeyboardAwareScrollView>
-    </View>
+    </SafeAreaView>
   );
 }

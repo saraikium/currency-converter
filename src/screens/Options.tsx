@@ -29,11 +29,7 @@ export const Options = () => {
 
         <RowItem
           title="Fixer.io"
-          onPress={() =>
-            openLink(
-              "https://learn.handlebarlabs.com/p/react-native-basics-build-a-currency-converter"
-            )
-          }
+          onPress={() => openLink("http://fixer.handlebarlabs.com")}
           rightIcon={<Entypo name="link" size={20} color={colors.blue} />}
         />
 

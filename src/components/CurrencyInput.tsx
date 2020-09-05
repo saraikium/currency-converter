@@ -16,7 +16,8 @@ const styles = StyleSheet.create({
     marginHorizontal: 20,
     borderRadius: 5,
     flexDirection: "row",
-    justifyContent: "flex-start"
+    justifyContent: "flex-start",
+    fontFamily: "OpenSans"
   },
   containerDisabled: {
     backgroundColor: colors.offWhite
@@ -27,17 +28,20 @@ const styles = StyleSheet.create({
     borderRightColor: colors.border,
     borderRightWidth: 1,
     borderTopLeftRadius: 5,
-    borderBottomLeftRadius: 5
+    borderBottomLeftRadius: 5,
+    fontFamily: "Open Sans"
   },
   buttonText: {
     fontSize: 18,
     color: colors.blue,
-    fontWeight: "bold"
+    fontWeight: "900",
+    fontFamily: "OpenSans-Bold"
   },
   input: {
     flex: 1,
     padding: 10,
     fontSize: 16,
+    fontFamily: "OpenSans-Regular",
     color: colors.textLight
   }
 });

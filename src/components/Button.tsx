@@ -16,6 +16,7 @@ const styles = StyleSheet.create({
     height: 20
   },
   buttonText: {
+    fontFamily: "OpenSans-Bold",
     fontSize: 16,
     color: colors.white
   }

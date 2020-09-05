@@ -23,14 +23,26 @@ const MainStackScreen = () => (
     <MainStack.Screen
       name="Home"
       component={Home}
-      options={{headerShown: false}}
+      options={{
+        headerShown: false,
+        headerTitleStyle: {fontFamily: "OpenSans-SemiBold"}
+      }}
     />
     <MainStack.Screen
       name="Options"
       component={Options}
-      options={{headerShown: true}}
+      options={{
+        headerShown: true,
+        headerTitleStyle: {fontFamily: "OpenSans-SemiBold"}
+      }}
     />
-    <MainStack.Screen name="Themes" component={Themes} />
+    <MainStack.Screen
+      name="Themes"
+      component={Themes}
+      options={{
+        headerTitleStyle: {fontFamily: "OpenSans-SemiBold"}
+      }}
+    />
   </MainStack.Navigator>
 );
 
@@ -39,7 +51,10 @@ const ModalStackScreen = () => (
     <ModalStack.Screen
       name="Main"
       component={MainStackScreen}
-      options={{headerShown: false}}
+      options={{
+        headerShown: false,
+        headerTitleStyle: {fontFamily: "OpenSans-SemiBold"}
+      }}
     />
     <ModalStack.Screen
       name="CurrencyList"

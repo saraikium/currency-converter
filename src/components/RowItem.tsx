@@ -14,7 +14,8 @@ const styles = StyleSheet.create({
   },
   title: {
     color: colors.text,
-    fontSize: 16
+    fontSize: 16,
+    fontFamily: "OpenSans-Regular"
   },
   separator: {
     backgroundColor: colors.border,

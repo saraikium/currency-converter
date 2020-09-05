@@ -5,10 +5,10 @@ import {
   StatusBar,
   StyleSheet,
   Text,
-  View
+  View,
+  SafeAreaView
 } from "react-native";
 import {TouchableOpacity} from "react-native-gesture-handler";
-import {SafeAreaView} from "react-native-safe-area-context";
 import Entypo from "react-native-vector-icons/Entypo";
 import {format} from "date-fns";
 import {StackNavigationProp} from "@react-navigation/stack";
@@ -28,11 +28,12 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "center",
-    backgroundColor: colors.blue
+    backgroundColor: colors.blue,
+    fontFamily: "Open Sans"
   },
   content: {
-    paddingTop: screen.height * 0.1,
-    paddingBottom: 20
+    paddingTop: screen.height * 0.01,
+    paddingBottom: 10
   },
   logoContainer: {
     justifyContent: "center",
@@ -50,18 +51,21 @@ const styles = StyleSheet.create({
   },
   textHeader: {
     color: colors.white,
-    fontWeight: "bold",
+    fontFamily: "OpenSans-Bold",
+    fontWeight: "800",
     fontSize: 30,
     textAlign: "center",
     marginBottom: 20
   },
   text: {
+    fontFamily: "OpenSans-Regular",
     fontSize: 14,
     color: colors.white,
     textAlign: "center"
   },
   inputContainer: {
-    marginBottom: 10
+    marginBottom: 10,
+    fontFamily: "Open Sans"
   },
   options: {
     alignItems: "flex-end",

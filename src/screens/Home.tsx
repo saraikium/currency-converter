@@ -1,6 +1,4 @@
-/* eslint-disable */
-import {format} from "date-fns";
-import React, {useState} from "react";
+import React, {useState, useContext} from "react";
 import {
   Dimensions,
   Image,
@@ -9,18 +7,20 @@ import {
   Text,
   View
 } from "react-native";
-import {SafeAreaView} from "react-native-safe-area-context";
 import {TouchableOpacity} from "react-native-gesture-handler";
+import {SafeAreaView} from "react-native-safe-area-context";
 import Entypo from "react-native-vector-icons/Entypo";
-//
+import {format} from "date-fns";
+import {StackNavigationProp} from "@react-navigation/stack";
+
 import backgroundImage from "../assets/images/background.png";
 import logo from "../assets/images/logo.png";
 import {Button} from "../components/Button";
 import {CurrencyInput} from "../components/CurrencyInput";
 import {KeyboardAwareScrollView} from "../components/KeyboardAwareScrollView";
 import colors from "../constants/colors";
-import {StackNavigationProp} from "@react-navigation/stack";
 import {MainStackParamsList} from "../types/types";
+import {CurrencyContext} from "../context/CurrencyContext";
 
 const screen = Dimensions.get("window");
 
@@ -74,12 +74,14 @@ type HomeProps = {
 };
 
 export function Home({navigation}: HomeProps) {
-  const [baseCurrency, setBaseCurrency] = useState("USD");
-  const [quoteCurrency, setQuoteCurrency] = useState("GBP");
-  const [conversionRate, setConvertionRate] = useState(0.843);
-  const [date, setDate] = useState(new Date("2020-09-04"));
+  const [currencyValue, setCurrencyValue] = useState("0");
+  const [conversionRate] = useState(0.843);
+  const [date] = useState(new Date("2020-09-04"));
+  const {baseCurrency, quoteCurrency, swapCurrencies} = useContext(
+    CurrencyContext
+  );
 
-  const swapCurrencies = () => {};
+  // Reverse currencies
   return (
     <SafeAreaView style={styles.container}>
       <KeyboardAwareScrollView>
@@ -100,23 +102,30 @@ export function Home({navigation}: HomeProps) {
         <Text style={styles.textHeader}>Currency Converter</Text>
         <View style={styles.inputContainer}>
           <CurrencyInput
-            value="123"
-            currency="USD"
+            value={currencyValue}
+            currency={baseCurrency}
+            onChangeText={(text) => {
+              const value = parseFloat(text);
+              setCurrencyValue(value ? value.toString() : "0");
+            }}
+            keyboardType="numeric"
             onChangeCurrency={() => {
               navigation.push("CurrencyList", {
                 title: "Base Currency",
-                activeCurrency: baseCurrency
+                isBaseCurrency: true
               });
             }}
           />
+
           <CurrencyInput
-            value="123"
-            currency="GBP"
+            value={`${(parseFloat(currencyValue) * conversionRate).toFixed(2)}`}
+            currency={quoteCurrency}
             disabled
+            keyboardType="numeric"
             onChangeCurrency={() => {
               navigation.push("CurrencyList", {
                 title: "Quote Currency",
-                activeCurrency: quoteCurrency
+                isBaseCurrency: false
               });
             }}
           />
@@ -127,7 +136,7 @@ export function Home({navigation}: HomeProps) {
             "MMM do, yyyy"
           )}`}
         </Text>
-        <Button text="Reverse Currencies" onPress={() => swapCurrencies()} />
+        <Button text="Reverse Currencies" onPress={swapCurrencies} />
       </KeyboardAwareScrollView>
     </SafeAreaView>
   );

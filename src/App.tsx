@@ -12,6 +12,7 @@ import {CurrencyList} from "./screens/CurrencyList";
 import {TouchableOpacity} from "react-native-gesture-handler";
 import Entypo from "react-native-vector-icons/Entypo";
 import colors from "./constants/colors";
+import {CurrencyContextProvider} from "./context/CurrencyContext";
 
 const MainStack = createStackNavigator<MainStackParamsList>();
 const ModalStack = createStackNavigator<ModalStackParamsList>();
@@ -56,7 +57,9 @@ const ModalStackScreen = () => (
 const App = () => {
   return (
     <NavigationContainer>
-      <ModalStackScreen />
+      <CurrencyContextProvider>
+        <ModalStackScreen />
+      </CurrencyContextProvider>
     </NavigationContainer>
   );
 };

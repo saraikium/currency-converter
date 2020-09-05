@@ -1,6 +1,6 @@
 interface CurrencyListProps {
   title: string;
-  activeCurrency: string;
+  isBaseCurrency: boolean;
 }
 
 export type MainStackParamsList = {

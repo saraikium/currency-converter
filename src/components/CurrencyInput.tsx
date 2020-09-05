@@ -4,16 +4,10 @@ import {
   TouchableOpacity,
   Text,
   TextInput,
-  StyleSheet
+  StyleSheet,
+  TextInputProps
 } from "react-native";
 import colors from "../constants/colors";
-
-interface CurrencyInputProps {
-  currency: string;
-  value: string;
-  disabled?: boolean;
-  onChangeCurrency(): void;
-}
 
 const styles = StyleSheet.create({
   container: {
@@ -48,11 +42,18 @@ const styles = StyleSheet.create({
   }
 });
 
+interface CurrencyInputProps extends TextInputProps {
+  currency: string;
+  value: string;
+  disabled?: boolean;
+  onChangeCurrency(): void;
+}
+
 export function CurrencyInput({
   currency,
-  value,
   disabled = false,
-  onChangeCurrency
+  onChangeCurrency,
+  ...props
 }: CurrencyInputProps) {
   const containerStyles: any[] = [styles.container];
   if (disabled) containerStyles.push(styles.containerDisabled);
@@ -62,13 +63,7 @@ export function CurrencyInput({
       <TouchableOpacity onPress={onChangeCurrency} style={styles.inputButton}>
         <Text style={styles.buttonText}>{currency}</Text>
       </TouchableOpacity>
-      <TextInput
-        value={value}
-        onChange={() => {}}
-        style={styles.input}
-        editable={!disabled}
-        keyboardType="numeric"
-      />
+      <TextInput editable={!disabled} style={styles.input} {...props} />
     </View>
   );
 }

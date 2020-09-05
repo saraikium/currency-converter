@@ -20,7 +20,7 @@ import {CurrencyInput} from "../components/CurrencyInput";
 import {KeyboardAwareScrollView} from "../components/KeyboardAwareScrollView";
 import colors from "../constants/colors";
 import {StackNavigationProp} from "@react-navigation/stack";
-import {MainStackParamsList} from "./types";
+import {MainStackParamsList} from "../types/types";
 
 const screen = Dimensions.get("window");
 

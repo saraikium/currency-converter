@@ -1,13 +1,20 @@
 import "react-native-gesture-handler";
 import React from "react";
 import {NavigationContainer} from "@react-navigation/native";
-import {createStackNavigator} from "@react-navigation/stack";
+import {
+  createStackNavigator,
+  StackNavigationOptions
+} from "@react-navigation/stack";
 import {Home} from "./screens/Home";
 import {Options} from "./screens/Options";
-import {MainStackParamsList} from "./screens/types";
+import {MainStackParamsList, ModalStackParamsList} from "./types/types";
 import {CurrencyList} from "./screens/CurrencyList";
+import {TouchableOpacity} from "react-native-gesture-handler";
+import Entypo from "react-native-vector-icons/Entypo";
+import colors from "./constants/colors";
 
 const MainStack = createStackNavigator<MainStackParamsList>();
+const ModalStack = createStackNavigator<ModalStackParamsList>();
 
 const MainStackScreen = () => (
   <MainStack.Navigator>
@@ -17,18 +24,39 @@ const MainStackScreen = () => (
       options={{headerShown: false}}
     />
     <MainStack.Screen name="Options" component={Options} />
-    <MainStack.Screen
+  </MainStack.Navigator>
+);
+
+const ModalStackScreen = () => (
+  <ModalStack.Navigator mode="modal">
+    <ModalStack.Screen
+      name="Main"
+      component={MainStackScreen}
+      options={{headerShown: false}}
+    />
+    <ModalStack.Screen
       name="CurrencyList"
       component={CurrencyList}
-      options={({route}) => ({title: route.params.title})}
+      options={({route, navigation}): StackNavigationOptions => ({
+        title: route.params && route.params.title,
+        headerLeft: () => null,
+        headerRight: () => (
+          <TouchableOpacity
+            onPress={() => navigation.pop()}
+            style={{paddingHorizontal: 10}}
+          >
+            <Entypo name="cross" size={30} color={colors.blue} />
+          </TouchableOpacity>
+        )
+      })}
     />
-  </MainStack.Navigator>
+  </ModalStack.Navigator>
 );
 
 const App = () => {
   return (
     <NavigationContainer>
-      <MainStackScreen />
+      <ModalStackScreen />
     </NavigationContainer>
   );
 };

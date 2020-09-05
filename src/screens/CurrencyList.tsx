@@ -1,12 +1,12 @@
 import React from "react";
-import {StatusBar, FlatList, View, StyleSheet} from "react-native";
+import {FlatList, StatusBar, StyleSheet, View} from "react-native";
 import {useSafeArea} from "react-native-safe-area-context";
-
-import currencies from "../data/currencies.js";
+import {RouteProp} from "@react-navigation/native";
+import {StackNavigationProp} from "@react-navigation/stack";
 import {RowItem, RowSeparator} from "../components/RowItem";
 import colors from "../constants/colors";
-import {StackNavigationProp} from "@react-navigation/stack";
-import {MainStackParamsList} from "./types.js";
+import currencies from "../data/currencies.js";
+import {ModalStackParamsList} from "../types/types.js";
 
 const styles = StyleSheet.create({
   container: {
@@ -16,7 +16,8 @@ const styles = StyleSheet.create({
 });
 
 interface Props {
-  navigation: StackNavigationProp<MainStackParamsList, "CurrencyList">;
+  navigation: StackNavigationProp<ModalStackParamsList, "CurrencyList">;
+  route: RouteProp<ModalStackParamsList, "CurrencyList">;
 }
 
 export const CurrencyList = ({navigation}: Props) => {

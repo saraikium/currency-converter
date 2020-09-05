@@ -3,3 +3,8 @@ export type MainStackParamsList = {
   Options: undefined;
   CurrencyList: {title: string};
 };
+
+export type ModalStackParamsList = {
+  Main: undefined;
+  CurrencyList: {title: string};
+};

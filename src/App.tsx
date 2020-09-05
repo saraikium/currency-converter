@@ -5,6 +5,7 @@ import {createStackNavigator} from "@react-navigation/stack";
 import {Home} from "./screens/Home";
 import {Options} from "./screens/Options";
 import {MainStackParamsList} from "./screens/types";
+import {CurrencyList} from "./screens/CurrencyList";
 
 const MainStack = createStackNavigator<MainStackParamsList>();
 
@@ -16,6 +17,11 @@ const MainStackScreen = () => (
       options={{headerShown: false}}
     />
     <MainStack.Screen name="Options" component={Options} />
+    <MainStack.Screen
+      name="CurrencyList"
+      component={CurrencyList}
+      options={({route}) => ({title: route.params.title})}
+    />
   </MainStack.Navigator>
 );
 

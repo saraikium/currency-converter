@@ -1,7 +1,7 @@
+/* eslint-disable */
 import {format} from "date-fns";
 import React, {useState} from "react";
 import {
-  Alert,
   Dimensions,
   Image,
   StatusBar,
@@ -74,7 +74,6 @@ type HomeProps = {
 };
 
 export function Home({navigation}: HomeProps) {
-  //
   const [baseCurrency, setBaseCurrency] = useState("USD");
   const [quoteCurrency, setQuoteCurrency] = useState("GBP");
   const [conversionRate, setConvertionRate] = useState(0.843);
@@ -104,7 +103,7 @@ export function Home({navigation}: HomeProps) {
             value="123"
             currency="USD"
             onChangeCurrency={() => {
-              Alert.alert("it works!");
+              navigation.push("CurrencyList", {title: "Base Currency"});
             }}
           />
           <CurrencyInput
@@ -112,7 +111,7 @@ export function Home({navigation}: HomeProps) {
             currency="GBP"
             disabled
             onChangeCurrency={() => {
-              Alert.alert("it works!");
+              navigation.push("CurrencyList", {title: "Quote Currency"});
             }}
           />
         </View>

@@ -6,7 +6,7 @@ const themes = [
   {name: "Blue", color: "#4f6d7a"},
   {name: "Orange", color: "#d37a68"},
   {name: "Green", color: "#1dbc9c"},
-  {name: "Pruple", color: "#9c788f"}
+  {name: "Purple", color: "#9c788f"}
 ];
 
 const styles = StyleSheet.create({

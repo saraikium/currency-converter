@@ -33,7 +33,7 @@ export const Options = ({navigation}: Props) => {
         <Separator />
         <RowItem
           title="Fixer.io"
-          onPress={() => openLink("aakhan.me")}
+          onPress={() => openLink("https://aakhan.me")}
           rightIcon={<Entypo name="link" size={20} color={colors.blue} />}
         />
         <Separator />

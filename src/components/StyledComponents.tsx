@@ -13,6 +13,7 @@ export const StyledSafeAreaView = styled.SafeAreaView`
 
 export const RegularText = styled.Text<IStyledText>`
   font-family: OpenSans-Regular;
+  text-align: center;
   font-size: ${({fontSize = "16px"}) => fontSize};
   color: ${({color = "black"}) => color};
 `;
@@ -20,6 +21,15 @@ export const RegularText = styled.Text<IStyledText>`
 export const BoldText = styled(RegularText)`
   font-family: OpenSans-Bold;
   font-weight: 900;
+`;
+
+export const HeaderText = styled(BoldText)`
+  font-family: "OpenSans-Bold";
+  color: ${colors.white};
+  font-size: 30px;
+  margin-bottom: 20px;
+  margin-top: 10px;
+  text-align: center;
 `;
 
 export const Container = styled.View`

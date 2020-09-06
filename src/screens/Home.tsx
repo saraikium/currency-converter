@@ -1,14 +1,6 @@
 import {format} from "date-fns";
 import React, {useState, useEffect} from "react";
-import {
-  Dimensions,
-  SafeAreaView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View
-} from "react-native";
+import {StatusBar, TouchableOpacity} from "react-native";
 import Entypo from "react-native-vector-icons/Entypo";
 import {StackNavigationProp} from "@react-navigation/stack";
 
@@ -27,43 +19,23 @@ import {MainStackParamsList, ICommonProps} from "../types/types";
 import {connect} from "react-redux";
 import {RootState} from "../store/reducers";
 import {Logo} from "../components/Logo";
+import {HeaderText, RegularText} from "../components/StyledComponents";
+import styled from "styled-components/native";
 
-const screen = Dimensions.get("window");
+const StyledSafeAreaView = styled.SafeAreaView`
+  flex: 1;
+  justify-content: center;
+  background-color: ${colors.blue};
+`;
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    backgroundColor: colors.blue,
-    fontFamily: "Open Sans"
-  },
-  content: {
-    paddingTop: screen.height * 0.01,
-    paddingBottom: 10
-  },
-  textHeader: {
-    color: colors.white,
-    fontFamily: "OpenSans-Bold",
-    fontWeight: "800",
-    fontSize: 30,
-    textAlign: "center",
-    marginBottom: 20
-  },
-  text: {
-    fontFamily: "OpenSans-Regular",
-    fontSize: 14,
-    color: colors.white,
-    textAlign: "center"
-  },
-  inputContainer: {
-    marginBottom: 10,
-    fontFamily: "Open Sans"
-  },
-  options: {
-    alignItems: "flex-end",
-    marginRight: 20
-  }
-});
+const InputContainer = styled.View`
+  margin-bottom: 10px;
+`;
+
+const OptionsContainer = styled.View`
+  align-items: flex-end;
+  margin-right: 20px;
+`;
 
 interface IProps extends ICommonProps {
   date: Date;
@@ -109,17 +81,17 @@ const Home = (props: IProps) => {
   }, [quoteCurrency, baseCurrency, rates]);
 
   return (
-    <SafeAreaView style={styles.container}>
+    <StyledSafeAreaView>
       <KeyboardAwareScrollView>
         <StatusBar barStyle="light-content" backgroundColor={colors.blue} />
-        <View style={styles.options}>
+        <OptionsContainer>
           <TouchableOpacity onPress={() => navigation.navigate("Options")}>
             <Entypo name="cog" size={32} color={colors.white} />
           </TouchableOpacity>
-        </View>
+        </OptionsContainer>
         <Logo />
-        <Text style={styles.textHeader}>Currency Converter</Text>
-        <View style={styles.inputContainer}>
+        <HeaderText>Currency Converter</HeaderText>
+        <InputContainer>
           <CurrencyInput
             value={currencyValue}
             currency={baseCurrency}
@@ -135,7 +107,6 @@ const Home = (props: IProps) => {
               });
             }}
           />
-
           <CurrencyInput
             value={`${(parseFloat(currencyValue) * conversionRate).toFixed(2)}`}
             currency={quoteCurrency}
@@ -148,16 +119,16 @@ const Home = (props: IProps) => {
               });
             }}
           />
-        </View>
-        <Text style={styles.text}>
+        </InputContainer>
+        <RegularText fontSize="14px" color={colors.white}>
           {`1 ${baseCurrency} = ${conversionRate} ${quoteCurrency} as of ${format(
             date,
             "MMM do, yyyy"
           )}`}
-        </Text>
+        </RegularText>
         <Button text="Reverse Currencies" onPress={swapCurrencies} />
       </KeyboardAwareScrollView>
-    </SafeAreaView>
+    </StyledSafeAreaView>
   );
 };
 

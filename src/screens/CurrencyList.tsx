@@ -56,7 +56,7 @@ const getIcon = (selected: boolean) =>
     </View>
   ) : null;
 
-const CurrencyList: React.FC = ({
+const CurrencyList = ({
   baseCurrency,
   quoteCurrency,
   changeBaseCurrency,

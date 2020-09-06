@@ -1,26 +1,22 @@
 import React from "react";
-import {TouchableOpacity, Image, StyleSheet, Text} from "react-native";
-
+import styled from "styled-components/native";
+import {BoldText} from "./StyledComponents";
 import colors from "../constants/colors";
+import reverseIcon from "../assets/images/reverse.png";
 
-const styles = StyleSheet.create({
-  button: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    marginVertical: 20
-  },
-  buttonIcon: {
-    marginRight: 10,
-    width: 20,
-    height: 20
-  },
-  buttonText: {
-    fontFamily: "OpenSans-Bold",
-    fontSize: 16,
-    color: colors.white
-  }
-});
+const ButtonIcon = styled.Image`
+  margin-right: 10px;
+  width: 20px;
+  height: 20px;
+`;
+
+const StyledButton = styled.TouchableOpacity`
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20px;
+  margin-bottom: 20px;
+`;
 
 interface ButtonProps {
   text: string;
@@ -29,13 +25,9 @@ interface ButtonProps {
 
 export const Button = ({onPress, text}: ButtonProps) => {
   return (
-    <TouchableOpacity onPress={onPress} style={styles.button}>
-      <Image
-        source={require("../assets/images/reverse.png")}
-        style={styles.buttonIcon}
-        resizeMode="contain"
-      />
-      <Text style={styles.buttonText}>{text}</Text>
-    </TouchableOpacity>
+    <StyledButton onPress={onPress}>
+      <ButtonIcon source={reverseIcon} resizeMode="contain" />
+      <BoldText color={colors.white}>{text}</BoldText>
+    </StyledButton>
   );
 };

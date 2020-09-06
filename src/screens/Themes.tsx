@@ -1,7 +1,10 @@
 import React from "react";
 import {FlatList} from "react-native-gesture-handler";
-import {RowItem, RowSeparator} from "../components/RowItem";
-import {View, StyleSheet} from "react-native";
+import styled from "styled-components/native";
+
+import {RowItem} from "../components/RowItem";
+import {Separator} from "../components/StyledComponents";
+
 const themes = [
   {name: "Blue", color: "#4f6d7a"},
   {name: "Orange", color: "#d37a68"},
@@ -9,13 +12,14 @@ const themes = [
   {name: "Purple", color: "#9c788f"}
 ];
 
-const styles = StyleSheet.create({
-  preview: {
-    width: 30,
-    height: 30,
-    borderRadius: 15
-  }
-});
+type PreviewProps = {color: string};
+// eslint-disable-next-line no-undef
+const Preview = styled.View<PreviewProps>`
+  width: 30px;
+  height: 30px;
+  border-radius: 15px;
+  background-color: ${({color}) => color};
+`;
 
 export const Themes: React.FC = () => {
   return (
@@ -26,12 +30,10 @@ export const Themes: React.FC = () => {
         <RowItem
           title={item.name}
           onPress={() => {}}
-          rightIcon={
-            <View style={[styles.preview, {backgroundColor: item.color}]} />
-          }
+          rightIcon={<Preview color={item.color} />}
         />
       )}
-      ItemSeparatorComponent={() => <RowSeparator />}
+      ItemSeparatorComponent={() => <Separator />}
     />
   );
 };

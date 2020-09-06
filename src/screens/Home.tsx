@@ -21,6 +21,7 @@ import {RootState} from "../store/reducers";
 import {Logo} from "../components/Logo";
 import {HeaderText, RegularText} from "../components/StyledComponents";
 import styled from "styled-components/native";
+import {IRates} from "../store/types/currency";
 
 const StyledSafeAreaView = styled.SafeAreaView`
   flex: 1;
@@ -39,6 +40,7 @@ const OptionsContainer = styled.View`
 
 interface IProps extends ICommonProps {
   date: Date;
+  rates: IRates;
   currencies: string[];
   conversionRate: number;
   setCurrencyList(list: string[]): void;

@@ -1,5 +1,3 @@
-import {IRates} from "../store/types/currency";
-
 interface CurrencyListProps {
   title: string;
   isBaseCurrency: boolean;
@@ -20,7 +18,6 @@ export type ModalStackParamsList = {
 export interface ICommonProps {
   baseCurrency: string;
   quoteCurrency: string;
-  rates: IRates;
   getLatestRates(currency: string): void;
   changeBaseCurrency(currency: string): void;
   changeQuoteCurrency(currency: string): void;

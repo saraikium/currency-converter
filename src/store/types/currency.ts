@@ -4,7 +4,6 @@ export const SET_QUOTE_CURRENCY = "SET_QUOTE_CURRENCY";
 export const RATES_REQUEST_START = "REQUEST_CONVERSION_RATES";
 export const RATES_REQUEST_COMPLETE = "CONVERSION_RATES_REQUEST_COMPLETE";
 export const SET_CURRENCIES = "SET_CURRENCIES";
-export const SET_CONVERSION_RATE = "SET_CONVERSION_RATE";
 export const SET_DATE = "SET_DATE";
 
 // Interfaces
@@ -31,11 +30,6 @@ export interface ISetCurreciesAction {
   payload: string[];
 }
 
-export interface ISetConversionRateAction {
-  type: typeof SET_CONVERSION_RATE;
-  payload: number;
-}
-
 export interface IStartRatesRequestAction {
   type: typeof RATES_REQUEST_START;
   payload: string;
@@ -55,6 +49,5 @@ export type CurrencyActionTypes =
   | ISetCurrencyAction
   | ICompleteRatesRequestAction
   | IStartRatesRequestAction
-  | ISetConversionRateAction
   | ISetCurreciesAction
   | ISetDateAction;

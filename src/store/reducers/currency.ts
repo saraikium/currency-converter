@@ -6,7 +6,6 @@ import {
   CurrencyActionTypes,
   IRates,
   RATES_REQUEST_START,
-  SET_CONVERSION_RATE,
   SET_CURRENCIES,
   SET_DATE
 } from "../types/currency";
@@ -30,11 +29,6 @@ export const startRatesRequest = (currency: string): CurrencyActionTypes => ({
 export const completeRatesRequest = (rates: IRates): CurrencyActionTypes => ({
   type: RATES_REQUEST_COMPLETE,
   payload: rates
-});
-
-export const setConversionRate = (rate: number): CurrencyActionTypes => ({
-  type: SET_CONVERSION_RATE,
-  payload: rate
 });
 
 export const setCurrencies = (currencies: string[]): CurrencyActionTypes => ({
@@ -66,26 +60,12 @@ export const currencyReducer = (
 ): ICurrencyState => {
   switch (action.type) {
     case SET_BASE_CURRENCY:
-      console.log({
-        baseCurrency: action.payload,
-        quoteCurrency: state.quoteCurrency
-      });
-      if (action.payload === state.quoteCurrency)
-        return {...state, baseCurrency: action.payload, conversionRate: 1};
       return {...state, baseCurrency: action.payload};
     case SET_DATE:
       return {...state, date: action.payload};
     case SET_CURRENCIES:
       return {...state, currencies: action.payload};
-    case SET_CONVERSION_RATE:
-      return {...state, conversionRate: action.payload};
     case SET_QUOTE_CURRENCY:
-      console.log({
-        quoteCurrency: action.payload,
-        baseCurrency: state.baseCurrency
-      });
-      if (action.payload === state.baseCurrency)
-        return {...state, quoteCurrency: action.payload, conversionRate: 1};
       return {...state, quoteCurrency: action.payload};
     case RATES_REQUEST_START:
       return {...state};

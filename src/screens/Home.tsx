@@ -15,17 +15,17 @@ import {StackNavigationProp} from "@react-navigation/stack";
 import {
   startRatesRequest,
   setBaseCurrency,
-  setQuoteCurrency
+  setQuoteCurrency,
+  setCurrencies
 } from "../store/reducers/currency";
 
 import {Button} from "../components/Button";
 import {CurrencyInput} from "../components/CurrencyInput";
 import {KeyboardAwareScrollView} from "../components/KeyboardAwareScrollView";
 import colors from "../constants/colors";
-import {MainStackParamsList} from "../types/types";
+import {MainStackParamsList, ICommonProps} from "../types/types";
 import {connect} from "react-redux";
 import {RootState} from "../store/reducers";
-import {IRates} from "../store/types/currency";
 import {Logo} from "../components/Logo";
 
 const screen = Dimensions.get("window");
@@ -65,28 +65,26 @@ const styles = StyleSheet.create({
   }
 });
 
-type IProps = {
-  baseCurrency: string;
-  quoteCurrency: string;
+interface IProps extends ICommonProps {
   date: Date;
+  currencies: string[];
   conversionRate: number;
-  rates: IRates;
-  getLatestRates(currency: string): any;
-  changeBaseCurrency(value: string): void;
-  changeQuoteCurrency(value: string): void;
+  setCurrencyList(list: string[]): void;
   navigation: StackNavigationProp<MainStackParamsList, "Home">;
-};
+}
 
-const Home = ({
-  navigation,
-  baseCurrency,
-  quoteCurrency,
-  date,
-  rates,
-  changeBaseCurrency,
-  changeQuoteCurrency,
-  getLatestRates
-}: IProps) => {
+const Home = (props: IProps) => {
+  const {
+    navigation,
+    baseCurrency,
+    quoteCurrency,
+    date,
+    rates,
+    changeBaseCurrency,
+    changeQuoteCurrency,
+    getLatestRates,
+    setCurrencyList
+  } = props;
   const [currencyValue, setCurrencyValue] = useState("0");
   const [conversionRate, setConversionRate] = useState(1);
   // Swap currencies on reverse button Click
@@ -94,6 +92,8 @@ const Home = ({
     getLatestRates(quoteCurrency);
     changeBaseCurrency(quoteCurrency);
     changeQuoteCurrency(baseCurrency);
+    const currencyList = Object.keys(rates);
+    setCurrencyList(currencyList);
   };
 
   useEffect(() => {
@@ -104,6 +104,8 @@ const Home = ({
     let newRate: number = rates[quoteCurrency];
     if (!newRate) newRate = 1;
     setConversionRate(newRate);
+    const currencyList = Object.keys(rates);
+    setCurrencyList(currencyList);
   }, [quoteCurrency, baseCurrency, rates]);
 
   return (
@@ -173,7 +175,9 @@ const mapDispatchToProps = (dispatch: any) => ({
   getLatestRates: (currency: string) => dispatch(startRatesRequest(currency)),
   changeBaseCurrency: (currency: string) => dispatch(setBaseCurrency(currency)),
   changeQuoteCurrency: (currency: string) =>
-    dispatch(setQuoteCurrency(currency))
+    dispatch(setQuoteCurrency(currency)),
+  setCurrencyList: (currencyList: string[]) =>
+    dispatch(setCurrencies(currencyList))
 });
 
 export const ConnectedHome = connect(

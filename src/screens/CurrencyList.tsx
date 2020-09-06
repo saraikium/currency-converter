@@ -1,140 +1,121 @@
 import React from "react";
-import {FlatList, StatusBar, StyleSheet, View} from "react-native";
+import {FlatList, StatusBar, View} from "react-native";
 import {useSafeArea} from "react-native-safe-area-context";
-import Entypo from "react-native-vector-icons/Entypo";
 import {connect} from "react-redux";
-import {
-  setBaseCurrency,
-  setQuoteCurrency,
-  startRatesRequest,
-  setConversionRate,
-  setCurrencies
-} from "../store/reducers/currency";
+import styled from "styled-components/native";
+import Entypo from "react-native-vector-icons/Entypo";
+
 import {RouteProp} from "@react-navigation/native";
 import {StackNavigationProp} from "@react-navigation/stack";
 
-import {RowItem, RowSeparator} from "../components/RowItem";
+import {RowItem} from "../components/RowItem";
+import {Separator} from "../components/StyledComponents";
 import colors from "../constants/colors";
-import currencies from "../data/currencies";
-import {ModalStackParamsList} from "../types/types.js";
 import {RootState} from "../store/reducers";
-import {IRates} from "../store/types/currency";
+import {
+  setBaseCurrency,
+  setQuoteCurrency,
+  startRatesRequest
+} from "../store/reducers/currency";
+import {ICommonProps, ModalStackParamsList} from "../types/types.js";
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: colors.white
-  },
-  icon: {
-    width: 30,
-    height: 30,
-    borderRadius: 20,
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: colors.blue
-  }
-});
+const Container = styled.View`
+  flex: 1;
+  background-color: ${colors.white};
+`;
+const Icon = styled.View`
+  width: 30px;
+  height: 30px;
+  border-radius: 10px;
+  align-items: center;
+  justify-content: center;
+  background-color: ${colors.blue};
+`;
 
 // Props interface
-interface IProps {
-  baseCurrency: string;
-  quoteCurrency: string;
-  rates: IRates;
-  setNewRate(rate: number): void;
-  setCurrencyList(list: string[]): void;
-  getLatestRates(currency: string): void;
-  changeBaseCurrency(currency: string): void;
-  changeQuoteCurrency(currency: string): void;
+interface IProps extends ICommonProps {
+  currencies: string[];
   navigation: StackNavigationProp<ModalStackParamsList, "CurrencyList">;
   route: RouteProp<ModalStackParamsList, "CurrencyList">;
 }
 
 const getIcon = (selected: boolean) =>
   selected ? (
-    <View style={styles.icon}>
+    <Icon>
       <Entypo name="check" size={20} color={colors.white} />
-    </View>
+    </Icon>
   ) : null;
 
-const CurrencyList = ({
-  baseCurrency,
-  quoteCurrency,
-  changeBaseCurrency,
-  changeQuoteCurrency,
-  getLatestRates,
-  navigation,
-  setNewRate,
-  setCurrencyList,
-  rates,
-  route
-}: IProps) => {
+const CurrencyList = (props: IProps) => {
+  const {
+    baseCurrency,
+    quoteCurrency,
+    changeBaseCurrency,
+    changeQuoteCurrency,
+    getLatestRates,
+    currencies,
+    navigation,
+    route
+  } = props;
+
   const insets = useSafeArea();
   const {isBaseCurrency} = route.params;
 
   const onPressItem = (item: string) => {
     if (isBaseCurrency) {
       changeBaseCurrency(item);
-      if (baseCurrency === quoteCurrency) setNewRate(1);
       getLatestRates(item);
-      const currencyList = Object.keys(rates);
-      setCurrencyList(currencyList);
     } else {
       changeQuoteCurrency(item);
-      const newRate = baseCurrency !== quoteCurrency ? rates[item] : 1;
-      console.log(newRate);
-      setNewRate(newRate);
     }
     navigation.pop();
   };
 
+  const renderItem = (item: string) => {
+    let selected = false;
+    if (isBaseCurrency && item === baseCurrency) {
+      selected = true;
+    } else if (!isBaseCurrency && item === quoteCurrency) {
+      selected = true;
+    }
+    return (
+      <RowItem
+        title={item}
+        onPress={() => onPressItem(item)}
+        rightIcon={getIcon(selected)}
+      />
+    );
+  };
+
   return (
-    <View style={styles.container}>
+    <Container>
       <StatusBar barStyle="dark-content" backgroundColor={colors.white} />
       <FlatList
         data={currencies}
-        renderItem={({item}) => {
-          let selected = false;
-
-          if (isBaseCurrency && item === baseCurrency) {
-            selected = true;
-          } else if (!isBaseCurrency && item === quoteCurrency) {
-            selected = true;
-          }
-
-          return (
-            <RowItem
-              title={item}
-              onPress={() => onPressItem(item)}
-              rightIcon={getIcon(selected)}
-            />
-          );
-        }}
+        renderItem={({item}) => renderItem(item)}
         keyExtractor={(item) => item}
-        ItemSeparatorComponent={() => <RowSeparator />}
+        ItemSeparatorComponent={() => <Separator />}
         ListFooterComponent={() => (
           <View style={{paddingBottom: insets.bottom}} />
         )}
       />
-    </View>
+    </Container>
   );
 };
 
 const mapStateToProps = ({
-  currency: {baseCurrency, quoteCurrency, rates}
+  currency: {baseCurrency, quoteCurrency, currencies}
 }: RootState) => ({
   baseCurrency,
   quoteCurrency,
-  rates
+  currencies
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
   changeBaseCurrency: (currency: string) => dispatch(setBaseCurrency(currency)),
   changeQuoteCurrency: (currency: string) =>
     dispatch(setQuoteCurrency(currency)),
-  getLatestRates: (currency: string) => dispatch(startRatesRequest(currency)),
-  setNewRate: (rate: number) => dispatch(setConversionRate(rate)),
-  setCurrencyList: (currencyList: string[]) =>
-    dispatch(setCurrencies(currencyList))
+  getLatestRates: (currency: string) => dispatch(startRatesRequest(currency))
 });
 
 export const ConnectedCurrencyList = connect(

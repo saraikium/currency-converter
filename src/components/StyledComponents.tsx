@@ -36,3 +36,9 @@ export const Input = styled.TextInput`
   font-family: OpenSans-Regular;
   color: ${colors.textLight};
 `;
+
+export const Separator = styled.View`
+  background-color: ${colors.blue};
+  height: 0.3px;
+  margin: 0px 20px;
+`;

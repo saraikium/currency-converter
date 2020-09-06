@@ -1,17 +1,12 @@
 import React from "react";
-import {
-  ScrollView,
-  Linking,
-  Alert,
-  StatusBar,
-  SafeAreaView
-} from "react-native";
-// import {SafeAreaView} from "react-native-safe-area-context";
+import {Alert, Linking, ScrollView, StatusBar} from "react-native";
 import Entypo from "react-native-vector-icons/Entypo";
+import {StackNavigationProp} from "@react-navigation/stack";
+
+import {RowItem} from "../components/RowItem";
+import {Separator, StyledSafeAreaView} from "../components/StyledComponents";
 
 import colors from "../constants/colors";
-import {RowItem, RowSeparator} from "../components/RowItem";
-import {StackNavigationProp} from "@react-navigation/stack";
 import {MainStackParamsList} from "../types/types";
 
 const openLink = (url: string) =>
@@ -24,7 +19,7 @@ type Props = {
 };
 export const Options = ({navigation}: Props) => {
   return (
-    <SafeAreaView style={{flex: 1}}>
+    <StyledSafeAreaView>
       <StatusBar barStyle="dark-content" backgroundColor={colors.white} />
       <ScrollView>
         <RowItem
@@ -36,14 +31,14 @@ export const Options = ({navigation}: Props) => {
             <Entypo name="chevron-right" size={20} color={colors.blue} />
           }
         />
-        <RowSeparator />
+        <Separator />
 
         <RowItem
           title="Fixer.io"
           onPress={() => openLink("http://fixer.handlebarlabs.com")}
           rightIcon={<Entypo name="link" size={20} color={colors.blue} />}
         />
-        <RowSeparator />
+        <Separator />
 
         <RowItem
           title="Logout"
@@ -51,6 +46,6 @@ export const Options = ({navigation}: Props) => {
           rightIcon={<Entypo name="back" size={20} color={colors.blue} />}
         />
       </ScrollView>
-    </SafeAreaView>
+    </StyledSafeAreaView>
   );
 };

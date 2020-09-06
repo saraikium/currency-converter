@@ -1,40 +1,25 @@
 import React from "react";
-import {StyleSheet, TouchableOpacity, Text, View} from "react-native";
-
+import styled from "styled-components/native";
 import colors from "../constants/colors";
+import {RegularText} from "./StyledComponents";
 
-const styles = StyleSheet.create({
-  row: {
-    paddingHorizontal: 20,
-    paddingVertical: 16,
-    justifyContent: "space-between",
-    alignItems: "center",
-    flexDirection: "row",
-    backgroundColor: colors.white
-  },
-  title: {
-    color: colors.text,
-    fontSize: 16,
-    fontFamily: "OpenSans-Regular"
-  },
-  separator: {
-    backgroundColor: colors.border,
-    height: StyleSheet.hairlineWidth,
-    marginLeft: 20
-  }
-});
+const Row = styled.TouchableOpacity`
+  padding: 16px 20px;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  background-color: ${colors.white};
+`;
 
-interface Props {
+interface IProps {
   title: string;
   onPress(): void;
   rightIcon?: React.ReactElement | null;
 }
 
-export const RowItem = ({title, onPress, rightIcon}: Props) => (
-  <TouchableOpacity onPress={onPress} style={styles.row}>
-    <Text style={styles.title}>{title}</Text>
+export const RowItem = ({title, onPress, rightIcon}: IProps) => (
+  <Row onPress={onPress}>
+    <RegularText color={colors.text}>{title}</RegularText>
     {rightIcon}
-  </TouchableOpacity>
+  </Row>
 );
-
-export const RowSeparator = () => <View style={styles.separator} />;

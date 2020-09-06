@@ -1,6 +1,6 @@
-import {currencySaga} from "./currency";
-import {fork} from "redux-saga/effects";
+import {getLatestRatesWatcher} from "./currency";
+import {all} from "redux-saga/effects";
 
 export function* rootSaga() {
-  yield fork(currencySaga);
+  yield all([getLatestRatesWatcher()]);
 }

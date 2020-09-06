@@ -1,16 +1,24 @@
-import React, {useContext} from "react";
+import React from "react";
 import {FlatList, StatusBar, StyleSheet, View} from "react-native";
 import {useSafeArea} from "react-native-safe-area-context";
 import Entypo from "react-native-vector-icons/Entypo";
-
+import {connect} from "react-redux";
+import {
+  setBaseCurrency,
+  setQuoteCurrency,
+  startRatesRequest,
+  setConversionRate,
+  setCurrencies
+} from "../store/reducers/currency";
 import {RouteProp} from "@react-navigation/native";
 import {StackNavigationProp} from "@react-navigation/stack";
 
 import {RowItem, RowSeparator} from "../components/RowItem";
 import colors from "../constants/colors";
-import currencies from "../data/currencies.js";
+import currencies from "../data/currencies";
 import {ModalStackParamsList} from "../types/types.js";
-import {CurrencyContext} from "../context/CurrencyContext";
+import {RootState} from "../store/reducers";
+import {IRates} from "../store/types/currency";
 
 const styles = StyleSheet.create({
   container: {
@@ -27,7 +35,16 @@ const styles = StyleSheet.create({
   }
 });
 
-interface Props {
+// Props interface
+interface IProps {
+  baseCurrency: string;
+  quoteCurrency: string;
+  rates: IRates;
+  setNewRate(rate: number): void;
+  setCurrencyList(list: string[]): void;
+  getLatestRates(currency: string): void;
+  changeBaseCurrency(currency: string): void;
+  changeQuoteCurrency(currency: string): void;
   navigation: StackNavigationProp<ModalStackParamsList, "CurrencyList">;
   route: RouteProp<ModalStackParamsList, "CurrencyList">;
 }
@@ -39,22 +56,33 @@ const getIcon = (selected: boolean) =>
     </View>
   ) : null;
 
-export const CurrencyList = ({navigation, route}: Props) => {
+const CurrencyList: React.FC = ({
+  baseCurrency,
+  quoteCurrency,
+  changeBaseCurrency,
+  changeQuoteCurrency,
+  getLatestRates,
+  navigation,
+  setNewRate,
+  setCurrencyList,
+  rates,
+  route
+}: IProps) => {
   const insets = useSafeArea();
-  const {
-    baseCurrency,
-    quoteCurrency,
-    setBaseCurrency,
-    setQuoteCurrency
-  } = useContext(CurrencyContext);
-
   const {isBaseCurrency} = route.params;
 
   const onPressItem = (item: string) => {
     if (isBaseCurrency) {
-      setBaseCurrency(item);
+      changeBaseCurrency(item);
+      if (baseCurrency === quoteCurrency) setNewRate(1);
+      getLatestRates(item);
+      const currencyList = Object.keys(rates);
+      setCurrencyList(currencyList);
     } else {
-      setQuoteCurrency(item);
+      changeQuoteCurrency(item);
+      const newRate = baseCurrency !== quoteCurrency ? rates[item] : 1;
+      console.log(newRate);
+      setNewRate(newRate);
     }
     navigation.pop();
   };
@@ -90,3 +118,26 @@ export const CurrencyList = ({navigation, route}: Props) => {
     </View>
   );
 };
+
+const mapStateToProps = ({
+  currency: {baseCurrency, quoteCurrency, rates}
+}: RootState) => ({
+  baseCurrency,
+  quoteCurrency,
+  rates
+});
+
+const mapDispatchToProps = (dispatch: any) => ({
+  changeBaseCurrency: (currency: string) => dispatch(setBaseCurrency(currency)),
+  changeQuoteCurrency: (currency: string) =>
+    dispatch(setQuoteCurrency(currency)),
+  getLatestRates: (currency: string) => dispatch(startRatesRequest(currency)),
+  setNewRate: (rate: number) => dispatch(setConversionRate(rate)),
+  setCurrencyList: (currencyList: string[]) =>
+    dispatch(setCurrencies(currencyList))
+});
+
+export const ConnectedCurrencyList = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(CurrencyList);

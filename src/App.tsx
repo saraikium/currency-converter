@@ -1,20 +1,28 @@
 import "react-native-gesture-handler";
 import React from "react";
+import {TouchableOpacity} from "react-native";
 import {NavigationContainer} from "@react-navigation/native";
+import {Provider} from "react-redux";
+import Entypo from "react-native-vector-icons/Entypo";
 import {
   createStackNavigator,
   StackNavigationOptions
 } from "@react-navigation/stack";
-import {Home} from "./screens/Home";
-import {Options} from "./screens/Options";
-import {MainStackParamsList, ModalStackParamsList} from "./types/types";
-import {CurrencyList} from "./screens/CurrencyList";
-import {TouchableOpacity} from "react-native-gesture-handler";
-import Entypo from "react-native-vector-icons/Entypo";
+
 import colors from "./constants/colors";
 import {CurrencyContextProvider} from "./context/CurrencyContext";
+import {ConnectedCurrencyList as CurrencyList} from "./screens/CurrencyList";
+import {ConnectedHome as Home} from "./screens/Home";
+import {Options} from "./screens/Options";
 import {Themes} from "./screens/Themes";
+import {store} from "./store";
 
+import {MainStackParamsList, ModalStackParamsList} from "./types/types";
+
+/**
+ * @format
+ *
+ */
 const MainStack = createStackNavigator<MainStackParamsList>();
 const ModalStack = createStackNavigator<ModalStackParamsList>();
 
@@ -78,9 +86,11 @@ const ModalStackScreen = () => (
 const App = () => {
   return (
     <NavigationContainer>
-      <CurrencyContextProvider>
-        <ModalStackScreen />
-      </CurrencyContextProvider>
+      <Provider store={store}>
+        <CurrencyContextProvider>
+          <ModalStackScreen />
+        </CurrencyContextProvider>
+      </Provider>
     </NavigationContainer>
   );
 };

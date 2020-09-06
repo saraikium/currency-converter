@@ -1,26 +1,32 @@
-import React, {useState, useContext} from "react";
+import {format} from "date-fns";
+import React, {useState, useEffect} from "react";
 import {
   Dimensions,
-  Image,
+  SafeAreaView,
   StatusBar,
   StyleSheet,
   Text,
-  View,
-  SafeAreaView
+  TouchableOpacity,
+  View
 } from "react-native";
-import {TouchableOpacity} from "react-native-gesture-handler";
 import Entypo from "react-native-vector-icons/Entypo";
-import {format} from "date-fns";
 import {StackNavigationProp} from "@react-navigation/stack";
 
-import backgroundImage from "../assets/images/background.png";
-import logo from "../assets/images/logo.png";
+import {
+  startRatesRequest,
+  setBaseCurrency,
+  setQuoteCurrency
+} from "../store/reducers/currency";
+
 import {Button} from "../components/Button";
 import {CurrencyInput} from "../components/CurrencyInput";
 import {KeyboardAwareScrollView} from "../components/KeyboardAwareScrollView";
 import colors from "../constants/colors";
 import {MainStackParamsList} from "../types/types";
-import {CurrencyContext} from "../context/CurrencyContext";
+import {connect} from "react-redux";
+import {RootState} from "../store/reducers";
+import {IRates} from "../store/types/currency";
+import {Logo} from "../components/Logo";
 
 const screen = Dimensions.get("window");
 
@@ -34,20 +40,6 @@ const styles = StyleSheet.create({
   content: {
     paddingTop: screen.height * 0.01,
     paddingBottom: 10
-  },
-  logoContainer: {
-    justifyContent: "center",
-    alignItems: "center",
-    position: "relative"
-  },
-  logoBackground: {
-    width: screen.width * 0.45,
-    height: screen.height * 0.45
-  },
-  logo: {
-    position: "absolute",
-    width: screen.width * 0.25,
-    height: screen.height * 0.25
   },
   textHeader: {
     color: colors.white,
@@ -73,19 +65,47 @@ const styles = StyleSheet.create({
   }
 });
 
-type HomeProps = {
+type IProps = {
+  baseCurrency: string;
+  quoteCurrency: string;
+  date: Date;
+  conversionRate: number;
+  rates: IRates;
+  getLatestRates(currency: string): any;
+  changeBaseCurrency(value: string): void;
+  changeQuoteCurrency(value: string): void;
   navigation: StackNavigationProp<MainStackParamsList, "Home">;
 };
 
-export function Home({navigation}: HomeProps) {
+const Home = ({
+  navigation,
+  baseCurrency,
+  quoteCurrency,
+  date,
+  rates,
+  changeBaseCurrency,
+  changeQuoteCurrency,
+  getLatestRates
+}: IProps) => {
   const [currencyValue, setCurrencyValue] = useState("0");
-  const [conversionRate] = useState(0.843);
-  const [date] = useState(new Date("2020-09-04"));
-  const {baseCurrency, quoteCurrency, swapCurrencies} = useContext(
-    CurrencyContext
-  );
+  const [conversionRate, setConversionRate] = useState(1);
+  // Swap currencies on reverse button Click
+  const swapCurrencies = () => {
+    getLatestRates(quoteCurrency);
+    changeBaseCurrency(quoteCurrency);
+    changeQuoteCurrency(baseCurrency);
+  };
 
-  // Reverse currencies
+  useEffect(() => {
+    getLatestRates(baseCurrency);
+  }, []);
+
+  useEffect(() => {
+    let newRate: number = rates[quoteCurrency];
+    if (!newRate) newRate = 1;
+    setConversionRate(newRate);
+  }, [quoteCurrency, baseCurrency, rates]);
+
   return (
     <SafeAreaView style={styles.container}>
       <KeyboardAwareScrollView>
@@ -95,14 +115,7 @@ export function Home({navigation}: HomeProps) {
             <Entypo name="cog" size={32} color={colors.white} />
           </TouchableOpacity>
         </View>
-        <View style={styles.logoContainer}>
-          <Image
-            source={backgroundImage}
-            style={styles.logoBackground}
-            resizeMode="contain"
-          />
-          <Image source={logo} style={styles.logo} resizeMode="contain" />
-        </View>
+        <Logo />
         <Text style={styles.textHeader}>Currency Converter</Text>
         <View style={styles.inputContainer}>
           <CurrencyInput
@@ -144,4 +157,26 @@ export function Home({navigation}: HomeProps) {
       </KeyboardAwareScrollView>
     </SafeAreaView>
   );
-}
+};
+
+const mapStateTopProps = ({
+  currency: {baseCurrency, quoteCurrency, rates, date, conversionRate}
+}: RootState) => ({
+  rates,
+  quoteCurrency,
+  baseCurrency,
+  date,
+  conversionRate
+});
+
+const mapDispatchToProps = (dispatch: any) => ({
+  getLatestRates: (currency: string) => dispatch(startRatesRequest(currency)),
+  changeBaseCurrency: (currency: string) => dispatch(setBaseCurrency(currency)),
+  changeQuoteCurrency: (currency: string) =>
+    dispatch(setQuoteCurrency(currency))
+});
+
+export const ConnectedHome = connect(
+  mapStateTopProps,
+  mapDispatchToProps
+)(Home);

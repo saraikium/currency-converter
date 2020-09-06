@@ -1,73 +1,51 @@
 import React from "react";
-import {
-  View,
-  TouchableOpacity,
-  Text,
-  TextInput,
-  StyleSheet,
-  TextInputProps
-} from "react-native";
+import {TextInputProps} from "react-native";
+import styled from "styled-components/native";
+import {BoldText, Input} from "./StyledComponents";
+
 import colors from "../constants/colors";
 
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: colors.white,
-    marginVertical: 10,
-    marginHorizontal: 20,
-    borderRadius: 5,
-    flexDirection: "row",
-    justifyContent: "flex-start",
-    fontFamily: "OpenSans"
-  },
-  containerDisabled: {
-    backgroundColor: colors.offWhite
-  },
-  inputButton: {
-    padding: 15,
-    backgroundColor: colors.white,
-    borderRightColor: colors.border,
-    borderRightWidth: 1,
-    borderTopLeftRadius: 5,
-    borderBottomLeftRadius: 5,
-    fontFamily: "Open Sans"
-  },
-  buttonText: {
-    fontSize: 18,
-    color: colors.blue,
-    fontWeight: "900",
-    fontFamily: "OpenSans-Bold"
-  },
-  input: {
-    flex: 1,
-    padding: 10,
-    fontSize: 16,
-    fontFamily: "OpenSans-Regular",
-    color: colors.textLight
-  }
-});
+const InputButton = styled.TouchableOpacity`
+  background-color: ${colors.white};
+  padding: 15px;
+  border-color: ${colors.border};
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+  border-right-width: 1px;
+`;
 
-interface CurrencyInputProps extends TextInputProps {
+interface IContainerProps {
+  disabled: boolean;
+}
+// eslint-disable-next-line no-undef
+const InputContainer = styled.View<IContainerProps>`
+  border-radius: 5px;
+  flex-direction: row;
+  justify-content: flex-start;
+  margin: 10px 20px;
+  background-color: ${({disabled}) =>
+    disabled ? colors.offWhite : colors.white};
+`;
+
+interface ICurrencyInputProps extends TextInputProps {
   currency: string;
   value: string;
   disabled?: boolean;
   onChangeCurrency(): void;
 }
 
-export function CurrencyInput({
+export const CurrencyInput = ({
   currency,
   disabled = false,
   onChangeCurrency,
   ...props
-}: CurrencyInputProps) {
-  const containerStyles: any[] = [styles.container];
-  if (disabled) containerStyles.push(styles.containerDisabled);
-
+}: ICurrencyInputProps) => {
   return (
-    <View style={containerStyles}>
-      <TouchableOpacity onPress={onChangeCurrency} style={styles.inputButton}>
-        <Text style={styles.buttonText}>{currency}</Text>
-      </TouchableOpacity>
-      <TextInput editable={!disabled} style={styles.input} {...props} />
-    </View>
+    <InputContainer disabled={disabled}>
+      <InputButton onPress={onChangeCurrency}>
+        <BoldText color={colors.blue}>{currency}</BoldText>
+      </InputButton>
+      <Input editable={!disabled} {...props} />
+    </InputContainer>
   );
-}
+};

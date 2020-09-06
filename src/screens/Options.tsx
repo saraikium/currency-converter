@@ -1,11 +1,10 @@
 import React from "react";
 import {Alert, Linking, ScrollView, StatusBar} from "react-native";
-import Entypo from "react-native-vector-icons/Entypo";
 import {StackNavigationProp} from "@react-navigation/stack";
+import Entypo from "react-native-vector-icons/Entypo";
 
 import {RowItem} from "../components/RowItem";
 import {Separator, StyledSafeAreaView} from "../components/StyledComponents";
-
 import colors from "../constants/colors";
 import {MainStackParamsList} from "../types/types";
 
@@ -32,17 +31,17 @@ export const Options = ({navigation}: Props) => {
           }
         />
         <Separator />
-
         <RowItem
           title="Fixer.io"
-          onPress={() => openLink("http://fixer.handlebarlabs.com")}
+          onPress={() => openLink("aakhan.me")}
           rightIcon={<Entypo name="link" size={20} color={colors.blue} />}
         />
         <Separator />
-
         <RowItem
           title="Logout"
-          onPress={() => {}}
+          onPress={() => {
+            Alert.alert("todo");
+          }}
           rightIcon={<Entypo name="back" size={20} color={colors.blue} />}
         />
       </ScrollView>

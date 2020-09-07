@@ -1,27 +1,26 @@
 import {format} from "date-fns";
-import React, {useState, useEffect} from "react";
+import React, {useEffect, useState, useCallback} from "react";
 import {StatusBar, TouchableOpacity} from "react-native";
 import Entypo from "react-native-vector-icons/Entypo";
+import {useDispatch, useSelector} from "react-redux";
+import styled from "styled-components/native";
 import {StackNavigationProp} from "@react-navigation/stack";
-
-import {
-  startRatesRequest,
-  setBaseCurrency,
-  setQuoteCurrency,
-  setCurrencies
-} from "../store/reducers/currency";
 
 import {Button} from "../components/Button";
 import {CurrencyInput} from "../components/CurrencyInput";
 import {KeyboardAwareScrollView} from "../components/KeyboardAwareScrollView";
-import colors from "../constants/colors";
-import {MainStackParamsList, ICommonProps} from "../types/types";
-import {connect} from "react-redux";
-import {RootState} from "../store/reducers";
 import {Logo} from "../components/Logo";
 import {HeaderText, RegularText} from "../components/StyledComponents";
-import styled from "styled-components/native";
-import {IRates} from "../store/types/currency";
+import colors from "../constants/colors";
+import {
+  setBaseCurrency,
+  setCurrencies,
+  setQuoteCurrency,
+  startRatesRequest
+} from "../store/reducers/currency";
+import {currencySelector} from "../store/selectors";
+
+import {MainStackParamsList} from "../types/types";
 
 const StyledSafeAreaView = styled.SafeAreaView`
   flex: 1;
@@ -38,40 +37,33 @@ const OptionsContainer = styled.View`
   margin-right: 20px;
 `;
 
-interface IProps extends ICommonProps {
-  date: Date;
-  rates: IRates;
-  currencies: string[];
-  conversionRate: number;
-  setCurrencyList(list: string[]): void;
+interface IProps {
   navigation: StackNavigationProp<MainStackParamsList, "Home">;
 }
 
-const Home = (props: IProps) => {
-  const {
-    navigation,
-    baseCurrency,
-    quoteCurrency,
-    date,
-    rates,
-    changeBaseCurrency,
-    changeQuoteCurrency,
-    getLatestRates,
-    setCurrencyList
-  } = props;
+export const Home = ({navigation}: IProps) => {
+  //local state
   const [currencyValue, setCurrencyValue] = useState("0");
   const [conversionRate, setConversionRate] = useState(1);
+
+  // Access the global state
+
+  const dispatch = useDispatch();
+  const {quoteCurrency, baseCurrency, rates, date} = useSelector(
+    currencySelector
+  );
+
   // Swap currencies on reverse button Click
-  const swapCurrencies = () => {
-    getLatestRates(quoteCurrency);
-    changeBaseCurrency(quoteCurrency);
-    changeQuoteCurrency(baseCurrency);
+  const swapCurrencies = useCallback(() => {
+    dispatch(startRatesRequest(quoteCurrency));
+    dispatch(setBaseCurrency(quoteCurrency));
+    dispatch(setQuoteCurrency(baseCurrency));
     const currencyList = Object.keys(rates);
-    setCurrencyList(currencyList);
-  };
+    dispatch(setCurrencies(currencyList));
+  }, [quoteCurrency, baseCurrency, rates, dispatch]);
 
   useEffect(() => {
-    getLatestRates(baseCurrency);
+    dispatch(startRatesRequest(baseCurrency));
   }, []);
 
   useEffect(() => {
@@ -79,7 +71,7 @@ const Home = (props: IProps) => {
     if (!newRate) newRate = 1;
     setConversionRate(newRate);
     const currencyList = Object.keys(rates);
-    setCurrencyList(currencyList);
+    setCurrencies(currencyList);
   }, [quoteCurrency, baseCurrency, rates]);
 
   return (
@@ -133,27 +125,3 @@ const Home = (props: IProps) => {
     </StyledSafeAreaView>
   );
 };
-
-const mapStateTopProps = ({
-  currency: {baseCurrency, quoteCurrency, rates, date, conversionRate}
-}: RootState) => ({
-  rates,
-  quoteCurrency,
-  baseCurrency,
-  date,
-  conversionRate
-});
-
-const mapDispatchToProps = (dispatch: any) => ({
-  getLatestRates: (currency: string) => dispatch(startRatesRequest(currency)),
-  changeBaseCurrency: (currency: string) => dispatch(setBaseCurrency(currency)),
-  changeQuoteCurrency: (currency: string) =>
-    dispatch(setQuoteCurrency(currency)),
-  setCurrencyList: (currencyList: string[]) =>
-    dispatch(setCurrencies(currencyList))
-});
-
-export const ConnectedHome = connect(
-  mapStateTopProps,
-  mapDispatchToProps
-)(Home);

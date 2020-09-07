@@ -12,7 +12,7 @@ import {
 import colors from "./constants/colors";
 import {CurrencyContextProvider} from "./context/CurrencyContext";
 import {ConnectedCurrencyList as CurrencyList} from "./screens/CurrencyList";
-import {ConnectedHome as Home} from "./screens/Home";
+import {Home} from "./screens/Home";
 import {Options} from "./screens/Options";
 import {Themes} from "./screens/Themes";
 import {store} from "./store";

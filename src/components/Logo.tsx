@@ -20,8 +20,8 @@ const BackgroundImage = styled.Image`
 
 const FrontImage = styled.Image`
   position: absolute;
-  width: ${screen.width * 0.2};
-  height: ${screen.height * 0.2};
+  width: ${screen.width * 0.2}px;
+  height: ${screen.height * 0.2}px;
 `;
 
 export const Logo = () => (

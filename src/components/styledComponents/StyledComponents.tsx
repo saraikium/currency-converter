@@ -1,6 +1,7 @@
 /* eslint-disable no-undef */
 import styled from "styled-components/native";
-import colors from "../constants/colors";
+import colors from "../../constants/themes";
+import {Themed} from "../../types/styledComponentTypes";
 
 type IStyledText = {
   color?: string;
@@ -47,8 +48,8 @@ export const Input = styled.TextInput`
   color: ${colors.textLight};
 `;
 
-export const Separator = styled.View`
-  background-color: ${colors.blue};
+export const Separator = styled.View<Themed>`
+  background-color: ${({theme}) => theme.themeColor};
   height: 0.3px;
   margin: 0px 20px;
 `;

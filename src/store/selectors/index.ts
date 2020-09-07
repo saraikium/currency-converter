@@ -1,5 +1,5 @@
 import {RootState} from "../reducers";
-import {ICurrencyState} from "../types/currency";
 
-export const currencySelector = (state: RootState): ICurrencyState =>
-  state.currency;
+export const currencySelector = (state: RootState) => state.currency;
+
+export const themeSelector = (state: RootState) => state.theme;

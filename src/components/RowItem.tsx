@@ -1,14 +1,16 @@
 import React from "react";
 import styled from "styled-components/native";
-import colors from "../constants/colors";
-import {RegularText} from "./StyledComponents";
+import {RegularText} from "./styledComponents/StyledComponents";
+import {Themed} from "../types/styledComponentTypes";
+import {useSelector} from "react-redux";
+import {themeSelector} from "../store/selectors";
 
-const Row = styled.TouchableOpacity`
+const Row = styled.TouchableOpacity<Themed>`
   padding: 16px 20px;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  background-color: ${colors.white};
+  background-color: ${({theme}) => theme.white};
 `;
 
 interface IProps {
@@ -17,9 +19,12 @@ interface IProps {
   rightIcon?: React.ReactElement | null;
 }
 
-export const RowItem = ({title, onPress, rightIcon}: IProps) => (
-  <Row onPress={onPress}>
-    <RegularText color={colors.text}>{title}</RegularText>
-    {rightIcon}
-  </Row>
-);
+export const RowItem = ({title, onPress, rightIcon}: IProps) => {
+  const theme = useSelector(themeSelector);
+  return (
+    <Row onPress={onPress}>
+      <RegularText color={theme.themeColor}>{title}</RegularText>
+      {rightIcon}
+    </Row>
+  );
+};

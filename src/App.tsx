@@ -1,22 +1,22 @@
 import "react-native-gesture-handler";
+
 import React from "react";
 import {TouchableOpacity} from "react-native";
-import {NavigationContainer} from "@react-navigation/native";
-import {Provider} from "react-redux";
 import Entypo from "react-native-vector-icons/Entypo";
+import {Provider} from "react-redux";
+
+import {NavigationContainer} from "@react-navigation/native";
 import {
   createStackNavigator,
   StackNavigationOptions
 } from "@react-navigation/stack";
 
-import colors from "./constants/colors";
-import {CurrencyContextProvider} from "./context/CurrencyContext";
+import colors from "./constants/themes";
 import {CurrencyList} from "./screens/CurrencyList";
 import {Home} from "./screens/Home";
 import {Options} from "./screens/Options";
 import {Themes} from "./screens/Themes";
 import {store} from "./store";
-
 import {MainStackParamsList, ModalStackParamsList} from "./types/types";
 
 /**
@@ -87,12 +87,11 @@ const App = () => {
   return (
     <NavigationContainer>
       <Provider store={store}>
-        <CurrencyContextProvider>
-          <ModalStackScreen />
-        </CurrencyContextProvider>
+        <ModalStackScreen />
       </Provider>
     </NavigationContainer>
   );
 };
+//
 
 export default App;

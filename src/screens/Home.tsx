@@ -3,29 +3,33 @@ import React, {useEffect, useState, useCallback} from "react";
 import {StatusBar, TouchableOpacity} from "react-native";
 import Entypo from "react-native-vector-icons/Entypo";
 import {useDispatch, useSelector} from "react-redux";
-import styled from "styled-components/native";
+import styled, {ThemeProvider} from "styled-components/native";
 import {StackNavigationProp} from "@react-navigation/stack";
 
 import {Button} from "../components/Button";
 import {CurrencyInput} from "../components/CurrencyInput";
 import {KeyboardAwareScrollView} from "../components/KeyboardAwareScrollView";
 import {Logo} from "../components/Logo";
-import {HeaderText, RegularText} from "../components/StyledComponents";
-import colors from "../constants/colors";
+import {
+  HeaderText,
+  RegularText
+} from "../components/styledComponents/StyledComponents";
+import colors from "../constants/themes";
 import {
   setBaseCurrency,
   setCurrencies,
   setQuoteCurrency,
   startRatesRequest
 } from "../store/reducers/currency";
-import {currencySelector} from "../store/selectors";
+import {currencySelector, themeSelector} from "../store/selectors";
 
 import {MainStackParamsList} from "../types/types";
+import {Themed} from "../types/styledComponentTypes";
 
-const StyledSafeAreaView = styled.SafeAreaView`
+const StyledSafeAreaView = styled.SafeAreaView<Themed>`
   flex: 1;
   justify-content: center;
-  background-color: ${colors.blue};
+  background-color: ${({theme}) => theme.themeColor};
 `;
 
 const InputContainer = styled.View`
@@ -49,6 +53,7 @@ export const Home = ({navigation}: IProps) => {
   // Access the global state
 
   const dispatch = useDispatch();
+  const theme = useSelector(themeSelector);
   const {quoteCurrency, baseCurrency, rates, date} = useSelector(
     currencySelector
   );
@@ -75,53 +80,60 @@ export const Home = ({navigation}: IProps) => {
   }, [quoteCurrency, baseCurrency, rates]);
 
   return (
-    <StyledSafeAreaView>
-      <KeyboardAwareScrollView>
-        <StatusBar barStyle="light-content" backgroundColor={colors.blue} />
-        <OptionsContainer>
-          <TouchableOpacity onPress={() => navigation.navigate("Options")}>
-            <Entypo name="cog" size={32} color={colors.white} />
-          </TouchableOpacity>
-        </OptionsContainer>
-        <Logo />
-        <HeaderText>Currency Converter</HeaderText>
-        <InputContainer>
-          <CurrencyInput
-            value={currencyValue}
-            currency={baseCurrency}
-            onChangeText={(text) => {
-              const value = parseFloat(text);
-              setCurrencyValue(value ? value.toString() : "0");
-            }}
-            keyboardType="numeric"
-            onChangeCurrency={() => {
-              navigation.push("CurrencyList", {
-                title: "Base Currency",
-                isBaseCurrency: true
-              });
-            }}
+    <ThemeProvider theme={theme}>
+      <StyledSafeAreaView>
+        <KeyboardAwareScrollView>
+          <StatusBar
+            barStyle="light-content"
+            backgroundColor={theme.themeColor}
           />
-          <CurrencyInput
-            value={`${(parseFloat(currencyValue) * conversionRate).toFixed(2)}`}
-            currency={quoteCurrency}
-            disabled
-            keyboardType="numeric"
-            onChangeCurrency={() => {
-              navigation.push("CurrencyList", {
-                title: "Quote Currency",
-                isBaseCurrency: false
-              });
-            }}
-          />
-        </InputContainer>
-        <RegularText fontSize="14px" color={colors.white}>
-          {`1 ${baseCurrency} = ${conversionRate} ${quoteCurrency} as of ${format(
-            date,
-            "MMM do, yyyy"
-          )}`}
-        </RegularText>
-        <Button text="Reverse Currencies" onPress={swapCurrencies} />
-      </KeyboardAwareScrollView>
-    </StyledSafeAreaView>
+          <OptionsContainer>
+            <TouchableOpacity onPress={() => navigation.navigate("Options")}>
+              <Entypo name="cog" size={32} color={colors.white} />
+            </TouchableOpacity>
+          </OptionsContainer>
+          <Logo />
+          <HeaderText>Currency Converter</HeaderText>
+          <InputContainer>
+            <CurrencyInput
+              value={currencyValue}
+              currency={baseCurrency}
+              onChangeText={(text) => {
+                const value = parseFloat(text);
+                setCurrencyValue(value ? value.toString() : "0");
+              }}
+              keyboardType="numeric"
+              onChangeCurrency={() => {
+                navigation.push("CurrencyList", {
+                  title: "Base Currency",
+                  isBaseCurrency: true
+                });
+              }}
+            />
+            <CurrencyInput
+              value={`${(parseFloat(currencyValue) * conversionRate).toFixed(
+                2
+              )}`}
+              currency={quoteCurrency}
+              disabled
+              keyboardType="numeric"
+              onChangeCurrency={() => {
+                navigation.push("CurrencyList", {
+                  title: "Quote Currency",
+                  isBaseCurrency: false
+                });
+              }}
+            />
+          </InputContainer>
+          <RegularText fontSize="14px" color={colors.white}>
+            {`1 ${baseCurrency} = ${conversionRate} ${quoteCurrency} as of ${format(
+              date,
+              "MMM do, yyyy"
+            )}`}
+          </RegularText>
+          <Button text="Reverse Currencies" onPress={swapCurrencies} />
+        </KeyboardAwareScrollView>
+      </StyledSafeAreaView>
+    </ThemeProvider>
   );
 };

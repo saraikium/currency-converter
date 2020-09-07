@@ -1,12 +1,17 @@
 import React from "react";
 import {Alert, Linking, ScrollView, StatusBar} from "react-native";
-import {StackNavigationProp} from "@react-navigation/stack";
 import Entypo from "react-native-vector-icons/Entypo";
+import {useSelector} from "react-redux";
+import {StackNavigationProp} from "@react-navigation/stack";
 
 import {RowItem} from "../components/RowItem";
-import {Separator, StyledSafeAreaView} from "../components/StyledComponents";
-import colors from "../constants/colors";
+import {
+  Separator,
+  StyledSafeAreaView
+} from "../components/styledComponents/StyledComponents";
+import {themeSelector} from "../store/selectors";
 import {MainStackParamsList} from "../types/types";
+import {ThemeProvider} from "styled-components";
 
 const openLink = (url: string) =>
   Linking.openURL(url).catch(() =>
@@ -17,34 +22,41 @@ type Props = {
   navigation: StackNavigationProp<MainStackParamsList, "Options">;
 };
 export const Options = ({navigation}: Props) => {
+  const theme = useSelector(themeSelector);
   return (
-    <StyledSafeAreaView>
-      <StatusBar barStyle="dark-content" backgroundColor={colors.white} />
-      <ScrollView>
-        <RowItem
-          title="Themes"
-          onPress={() => {
-            navigation.navigate("Themes");
-          }}
-          rightIcon={
-            <Entypo name="chevron-right" size={20} color={colors.blue} />
-          }
-        />
-        <Separator />
-        <RowItem
-          title="Fixer.io"
-          onPress={() => openLink("https://aakhan.me")}
-          rightIcon={<Entypo name="link" size={20} color={colors.blue} />}
-        />
-        <Separator />
-        <RowItem
-          title="Logout"
-          onPress={() => {
-            Alert.alert("todo");
-          }}
-          rightIcon={<Entypo name="back" size={20} color={colors.blue} />}
-        />
-      </ScrollView>
-    </StyledSafeAreaView>
+    <ThemeProvider theme={theme}>
+      <StyledSafeAreaView>
+        <StatusBar barStyle="dark-content" backgroundColor={theme.white} />
+        <ScrollView>
+          <RowItem
+            title="Themes"
+            onPress={() => {
+              navigation.navigate("Themes");
+            }}
+            rightIcon={
+              <Entypo name="chevron-right" size={20} color={theme.themeColor} />
+            }
+          />
+          <Separator />
+          <RowItem
+            title="Fixer.io"
+            onPress={() => openLink("https://aakhan.me")}
+            rightIcon={
+              <Entypo name="link" size={20} color={theme.themeColor} />
+            }
+          />
+          <Separator />
+          <RowItem
+            title="Logout"
+            onPress={() => {
+              Alert.alert("todo");
+            }}
+            rightIcon={
+              <Entypo name="back" size={20} color={theme.themeColor} />
+            }
+          />
+        </ScrollView>
+      </StyledSafeAreaView>
+    </ThemeProvider>
   );
 };

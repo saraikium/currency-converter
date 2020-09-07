@@ -8,8 +8,8 @@ import {RouteProp} from "@react-navigation/native";
 import {StackNavigationProp} from "@react-navigation/stack";
 
 import {RowItem} from "../components/RowItem";
-import {Separator} from "../components/StyledComponents";
-import colors from "../constants/colors";
+import {Separator} from "../components/styledComponents/StyledComponents";
+import colors from "../constants/themes";
 import {
   setBaseCurrency,
   setQuoteCurrency,

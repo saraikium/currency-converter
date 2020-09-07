@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components/native";
-import {BoldText} from "./StyledComponents";
-import colors from "../constants/colors";
+import {BoldText} from "./styledComponents/StyledComponents";
+import colors from "../constants/themes";
 import reverseIcon from "../assets/images/reverse.png";
 
 const ButtonIcon = styled.Image`

@@ -11,7 +11,7 @@ import {
 
 import colors from "./constants/colors";
 import {CurrencyContextProvider} from "./context/CurrencyContext";
-import {ConnectedCurrencyList as CurrencyList} from "./screens/CurrencyList";
+import {CurrencyList} from "./screens/CurrencyList";
 import {Home} from "./screens/Home";
 import {Options} from "./screens/Options";
 import {Themes} from "./screens/Themes";

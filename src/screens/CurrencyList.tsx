@@ -1,7 +1,6 @@
 import React from "react";
 import {FlatList, StatusBar, View} from "react-native";
 import {useSafeArea} from "react-native-safe-area-context";
-import {connect} from "react-redux";
 import styled from "styled-components/native";
 import Entypo from "react-native-vector-icons/Entypo";
 
@@ -11,13 +10,15 @@ import {StackNavigationProp} from "@react-navigation/stack";
 import {RowItem} from "../components/RowItem";
 import {Separator} from "../components/StyledComponents";
 import colors from "../constants/colors";
-import {RootState} from "../store/reducers";
 import {
   setBaseCurrency,
   setQuoteCurrency,
   startRatesRequest
 } from "../store/reducers/currency";
-import {ICommonProps, ModalStackParamsList} from "../types/types.js";
+
+import {ModalStackParamsList} from "../types/types.js";
+import {useSelector, useDispatch} from "react-redux";
+import {currencySelector} from "../store/selectors";
 
 const Container = styled.View`
   flex: 1;
@@ -33,8 +34,7 @@ const Icon = styled.View`
 `;
 
 // Props interface
-interface IProps extends ICommonProps {
-  currencies: string[];
+interface IProps {
   navigation: StackNavigationProp<ModalStackParamsList, "CurrencyList">;
   route: RouteProp<ModalStackParamsList, "CurrencyList">;
 }
@@ -46,27 +46,22 @@ const getIcon = (selected: boolean) =>
     </Icon>
   ) : null;
 
-const CurrencyList = (props: IProps) => {
-  const {
-    baseCurrency,
-    quoteCurrency,
-    changeBaseCurrency,
-    changeQuoteCurrency,
-    getLatestRates,
-    currencies,
-    navigation,
-    route
-  } = props;
-
+export const CurrencyList: React.FC<IProps> = ({navigation, route}) => {
   const insets = useSafeArea();
   const {isBaseCurrency} = route.params;
 
+  //global state
+  const dispatch = useDispatch();
+  const {baseCurrency, quoteCurrency, currencies} = useSelector(
+    currencySelector
+  );
+
   const onPressItem = (item: string) => {
     if (isBaseCurrency) {
-      changeBaseCurrency(item);
-      getLatestRates(item);
+      dispatch(setBaseCurrency(item));
+      dispatch(startRatesRequest(item));
     } else {
-      changeQuoteCurrency(item);
+      dispatch(setQuoteCurrency(item));
     }
     navigation.pop();
   };
@@ -102,23 +97,3 @@ const CurrencyList = (props: IProps) => {
     </Container>
   );
 };
-
-const mapStateToProps = ({
-  currency: {baseCurrency, quoteCurrency, currencies}
-}: RootState) => ({
-  baseCurrency,
-  quoteCurrency,
-  currencies
-});
-
-const mapDispatchToProps = (dispatch: any) => ({
-  changeBaseCurrency: (currency: string) => dispatch(setBaseCurrency(currency)),
-  changeQuoteCurrency: (currency: string) =>
-    dispatch(setQuoteCurrency(currency)),
-  getLatestRates: (currency: string) => dispatch(startRatesRequest(currency))
-});
-
-export const ConnectedCurrencyList = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(CurrencyList);

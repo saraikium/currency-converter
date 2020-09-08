@@ -14,7 +14,7 @@ import {
   setBaseCurrency,
   setQuoteCurrency,
   startRatesRequest
-} from "../store/reducers/currency";
+} from "../store/reducersAndActions/currency";
 
 import {ModalStackParamsList} from "../types/types.js";
 import {useSelector, useDispatch} from "react-redux";

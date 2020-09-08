@@ -20,7 +20,7 @@ import {
   setCurrencies,
   setQuoteCurrency,
   startRatesRequest
-} from "../store/reducers/currency";
+} from "../store/reducersAndActions/currency";
 import {currencySelector, themeSelector} from "../store/selectors";
 
 import {MainStackParamsList} from "../types/types";

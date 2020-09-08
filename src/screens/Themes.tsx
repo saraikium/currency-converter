@@ -5,7 +5,7 @@ import styled, {ThemeProvider} from "styled-components/native";
 import {RowItem} from "../components/RowItem";
 import {Separator} from "../components/styledComponents/StyledComponents";
 import {useDispatch, useSelector} from "react-redux";
-import {setTheme} from "../store/reducers/theme";
+import {changeTheme} from "../store/reducersAndActions/theme";
 import {ThemeName} from "../store/types/theme";
 import {themeSelector} from "../store/selectors";
 
@@ -38,7 +38,7 @@ export const Themes: React.FC = () => {
           <RowItem
             title={item.name}
             onPress={() => {
-              dispatch(setTheme(item.name.toLocaleLowerCase() as ThemeName));
+              dispatch(changeTheme(item.name.toLocaleLowerCase() as ThemeName));
             }}
             rightIcon={<Preview color={item.color} />}
           />

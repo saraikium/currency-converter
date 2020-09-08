@@ -1,4 +1,6 @@
 /* eslint-disable no-undef */
+import React from "react";
+import {StyleSheet} from "react-native";
 import styled from "styled-components/native";
 import colors from "../../constants/themes";
 import {Themed} from "../../types/styledComponentTypes";
@@ -48,8 +50,11 @@ export const Input = styled.TextInput`
   color: ${colors.textLight};
 `;
 
-export const Separator = styled.View<Themed>`
+const StyledSeparator = styled.View<Themed>`
   background-color: ${({theme}) => theme.themeColor};
-  height: 0.3px;
   margin: 0px 20px;
 `;
+
+export const Separator = () => (
+  <StyledSeparator style={{height: StyleSheet.hairlineWidth}} />
+);

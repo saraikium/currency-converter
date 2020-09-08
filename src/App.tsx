@@ -1,7 +1,8 @@
 import "react-native-gesture-handler";
 
-import React from "react";
+import React, {useEffect} from "react";
 import {TouchableOpacity} from "react-native";
+import SplashScreen from "react-native-splash-screen";
 import Entypo from "react-native-vector-icons/Entypo";
 import {Provider} from "react-redux";
 
@@ -84,6 +85,11 @@ const ModalStackScreen = () => (
 );
 
 const App = () => {
+  // Hide the splash screen when application is ready
+  useEffect(() => {
+    SplashScreen.hide();
+  }, []);
+
   return (
     <NavigationContainer>
       <Provider store={store}>
@@ -92,6 +98,5 @@ const App = () => {
     </NavigationContainer>
   );
 };
-//
 
 export default App;

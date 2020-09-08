@@ -9,6 +9,7 @@ target 'CurrencyConverter' do
   use_react_native!(:path => config["reactNativePath"])
 
 
+
   target 'CurrencyConverterTests' do
     inherit! :complete
     # Pods for testing

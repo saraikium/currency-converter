@@ -11,7 +11,6 @@ import {
 } from "../components/styledComponents/StyledComponents";
 import {themeSelector} from "../store/selectors";
 import {MainStackParamsList} from "../types/types";
-import {ThemeProvider} from "styled-components";
 
 const openLink = (url: string) =>
   Linking.openURL(url).catch(() =>

@@ -2,7 +2,7 @@ import React from "react";
 import {StatusBar, View} from "react-native";
 import {ErrorMessage, Formik} from "formik";
 import {useSelector, useDispatch} from "react-redux";
-import styled, {ThemeProvider} from "styled-components/native";
+import styled from "styled-components/native";
 import * as Yup from "yup";
 
 import {requestLogin} from "../store/reducersAndActions/auth";

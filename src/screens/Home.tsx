@@ -3,7 +3,7 @@ import React, {useEffect, useState, useCallback} from "react";
 import {StatusBar, TouchableOpacity} from "react-native";
 import Entypo from "react-native-vector-icons/Entypo";
 import {useDispatch, useSelector} from "react-redux";
-import styled, {ThemeProvider} from "styled-components/native";
+import styled from "styled-components/native";
 import {StackNavigationProp} from "@react-navigation/stack";
 
 import {Button} from "../components/Button";

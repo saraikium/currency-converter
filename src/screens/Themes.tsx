@@ -1,13 +1,12 @@
 import React from "react";
 import {FlatList} from "react-native-gesture-handler";
-import styled, {ThemeProvider} from "styled-components/native";
+import {useDispatch} from "react-redux";
+import styled from "styled-components/native";
 
 import {RowItem} from "../components/RowItem";
 import {Separator} from "../components/styledComponents/StyledComponents";
-import {useDispatch, useSelector} from "react-redux";
 import {changeTheme} from "../store/reducersAndActions/theme";
 import {ThemeName} from "../store/types/theme";
-import {themeSelector} from "../store/selectors";
 
 const themes = [
   {name: "Blue", color: "#4f6d7a"},

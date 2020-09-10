@@ -1,7 +1,7 @@
 import React from "react";
 import {FlatList, StatusBar, View} from "react-native";
 import {useSafeArea} from "react-native-safe-area-context";
-import styled, {ThemeProvider} from "styled-components/native";
+import styled from "styled-components/native";
 import Entypo from "react-native-vector-icons/Entypo";
 
 import {RouteProp} from "@react-navigation/native";
@@ -18,7 +18,7 @@ import {
 
 import {ModalStackParamsList} from "../types/types.js";
 import {useSelector, useDispatch} from "react-redux";
-import {currencySelector, themeSelector} from "../store/selectors";
+import {currencySelector} from "../store/selectors";
 
 const Container = styled.View`
   flex: 1;
@@ -52,7 +52,6 @@ export const CurrencyList: React.FC<IProps> = ({navigation, route}) => {
 
   //global state
   const dispatch = useDispatch();
-  const theme = useSelector(themeSelector);
   const {baseCurrency, quoteCurrency, currencies} = useSelector(
     currencySelector
   );

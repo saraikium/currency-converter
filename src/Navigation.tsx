@@ -4,7 +4,7 @@ import React, {useEffect} from "react";
 import {TouchableOpacity} from "react-native";
 import SplashScreen from "react-native-splash-screen";
 import Entypo from "react-native-vector-icons/Entypo";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 
 import {NavigationContainer} from "@react-navigation/native";
 import {
@@ -24,6 +24,8 @@ import {
   AuthStackParamsList
 } from "./types/types";
 import {LoginScreen} from "./screens/Login";
+import {userSelector} from "./store/selectors";
+import {loadUser} from "./store/reducersAndActions/auth";
 
 /**
  * @format
@@ -103,15 +105,18 @@ const AuthStackScreen = () => (
 
 const Navigation = () => {
   const dispatch = useDispatch();
+  const user = useSelector(userSelector);
+  console.log(user);
   // Hide the splash screen when application is ready
   useEffect(() => {
     SplashScreen.hide();
+    dispatch(loadUser());
     dispatch(loadTheme());
   }, []);
 
   return (
     <NavigationContainer>
-      <AuthStackScreen />
+      {user ? <ModalStackScreen /> : <AuthStackScreen />}
     </NavigationContainer>
   );
 };

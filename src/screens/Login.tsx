@@ -1,16 +1,14 @@
 import React from "react";
 import {StatusBar, View} from "react-native";
 import {ErrorMessage, Formik} from "formik";
-import {useSelector} from "react-redux";
+import {useSelector, useDispatch} from "react-redux";
 import styled, {ThemeProvider} from "styled-components/native";
 import * as Yup from "yup";
 
+import {requestLogin} from "../store/reducersAndActions/auth";
 import {KeyboardAwareScrollView} from "../components/KeyboardAwareScrollView";
 import {Logo} from "../components/Logo";
-import {
-  BoldText,
-  RegularText
-} from "../components/styledComponents/StyledComponents";
+import {BoldText} from "../components/styledComponents/StyledComponents";
 import {themeSelector} from "../store/selectors";
 import {Themed} from "../types/styledComponentTypes";
 
@@ -54,6 +52,7 @@ const StyledTextInput = styled.TextInput<Themed>`
   padding: 10px;
   font-size: 16px;
   font-weight: 600;
+  color: ${({theme}) => theme.textLight};
   font-family: OpenSans-Bold;
 `;
 
@@ -75,6 +74,8 @@ const validationSchema = Yup.object({
 });
 export const LoginScreen: React.FC = () => {
   const theme = useSelector(themeSelector);
+  const dispatch = useDispatch();
+
   return (
     <ThemeProvider theme={theme}>
       <StyledSafeAreaView>
@@ -91,12 +92,15 @@ export const LoginScreen: React.FC = () => {
             <Formik
               validationSchema={validationSchema}
               initialValues={{email: "", password: ""}}
-              onSubmit={() => {}}
+              onSubmit={(values) => {
+                dispatch(requestLogin(values));
+              }}
             >
               {({handleChange, handleSubmit, handleBlur, values}) => (
                 <View>
                   <InputContainer>
                     <StyledTextInput
+                      keyboardType="email-address"
                       onChangeText={handleChange("email")}
                       onBlur={handleBlur("email")}
                       value={values.email}
@@ -106,6 +110,7 @@ export const LoginScreen: React.FC = () => {
                   <ErrorMessage name="email" component={ErrorText} />
                   <InputContainer>
                     <StyledTextInput
+                      secureTextEntry={true}
                       onChangeText={handleChange("password")}
                       onBlur={handleBlur("password")}
                       value={values.password}

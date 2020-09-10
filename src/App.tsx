@@ -4,8 +4,10 @@ import {Provider} from "react-redux";
 import Navigation from "./Navigation";
 import {store} from "./store";
 
-export const App = () => (
-  <Provider store={store}>
-    <Navigation />
-  </Provider>
-);
+export const App = () => {
+  return (
+    <Provider store={store}>
+      <Navigation />
+    </Provider>
+  );
+};

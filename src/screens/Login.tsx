@@ -1,12 +1,18 @@
 import React from "react";
-import {View, StatusBar} from "react-native";
-import {BoldText} from "../components/styledComponents/StyledComponents";
-import styled, {ThemeProvider} from "styled-components/native";
-import {Themed} from "../types/styledComponentTypes";
+import {StatusBar, View} from "react-native";
+import {ErrorMessage, Formik} from "formik";
 import {useSelector} from "react-redux";
-import {themeSelector} from "../store/selectors";
+import styled, {ThemeProvider} from "styled-components/native";
+import * as Yup from "yup";
+
 import {KeyboardAwareScrollView} from "../components/KeyboardAwareScrollView";
 import {Logo} from "../components/Logo";
+import {
+  BoldText,
+  RegularText
+} from "../components/styledComponents/StyledComponents";
+import {themeSelector} from "../store/selectors";
+import {Themed} from "../types/styledComponentTypes";
 
 const StyledSafeAreaView = styled.SafeAreaView<Themed>`
   flex: 1;
@@ -16,25 +22,107 @@ const StyledSafeAreaView = styled.SafeAreaView<Themed>`
 
 const FormContainer = styled.View`
   margin: 10px 20px;
+  flex: 1;
+  flex-direction: column;
+`;
+
+const Button = styled.TouchableOpacity<Themed>`
+  border-radius: 5px;
+  background-color: white;
+  padding: 10px;
+  color: ${({theme}) => theme.themeColor};
 `;
 
 const InputContainer = styled.View`
-  margin-bottom: 10px;
+  margin: 10px 20px;
+  flex: 1;
+  flex-direction: column;
+  background-color: white;
+  border-radius: 5px;
+  justify-content: center;
 `;
 
+const ButtonContainer = styled.View`
+  margin: 10px 20px;
+  flex: 1;
+  background-color: white;
+  border-radius: 5px;
+  justify-content: center;
+`;
+const StyledTextInput = styled.TextInput<Themed>`
+  flex: 1;
+  padding: 10px;
+  font-size: 16px;
+  font-weight: 600;
+  font-family: OpenSans-Bold;
+`;
+
+const ErrorText = styled.Text`
+  font-family: OpenSans-Regular;
+  font-weight: 500;
+  font-size: 14px;
+  padding: 10px;
+  margin-left: 10px;
+  color: white;
+`;
+
+const validationSchema = Yup.object({
+  email: Yup.string().email("Invalid email").required(),
+  password: Yup.string()
+    .min(6, "Password must be at least 6 characters long.")
+    .max(15, "Max password length is 15 charactors.")
+    .required()
+});
 export const LoginScreen: React.FC = () => {
   const theme = useSelector(themeSelector);
   return (
     <ThemeProvider theme={theme}>
       <StyledSafeAreaView>
         <KeyboardAwareScrollView>
-          <StatusBar barStyle="light-content" backgroundColor={theme.theme} />
+          <StatusBar
+            barStyle="light-content"
+            backgroundColor={theme.themeColor}
+          />
           <Logo />
           <FormContainer>
-            <BoldText color={theme.white} fontSize="18px">
+            <BoldText color={theme.white} fontSize="24px">
               Login to Continue
             </BoldText>
-            <InputContainer />
+            <Formik
+              validationSchema={validationSchema}
+              initialValues={{email: "", password: ""}}
+              onSubmit={() => {}}
+            >
+              {({handleChange, handleSubmit, handleBlur, values}) => (
+                <View>
+                  <InputContainer>
+                    <StyledTextInput
+                      onChangeText={handleChange("email")}
+                      onBlur={handleBlur("email")}
+                      value={values.email}
+                      placeholder="Enter you email.."
+                    />
+                  </InputContainer>
+                  <ErrorMessage name="email" component={ErrorText} />
+                  <InputContainer>
+                    <StyledTextInput
+                      onChangeText={handleChange("password")}
+                      onBlur={handleBlur("password")}
+                      value={values.password}
+                      placeholder="Enter password..."
+                    />
+                  </InputContainer>
+                  <ErrorMessage name="password" component={ErrorText} />
+                  <ButtonContainer>
+                    <Button onPress={handleSubmit}>
+                      <BoldText color={theme.themeColor} fontSize="20px">
+                        Login
+                      </BoldText>
+                    </Button>
+                  </ButtonContainer>
+                </View>
+              )}
+            </Formik>
           </FormContainer>
         </KeyboardAwareScrollView>
       </StyledSafeAreaView>

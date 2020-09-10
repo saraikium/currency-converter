@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components/native";
-import {StyledText} from "./styledComponents/Misc";
+import {StyledText} from "./styledComponents";
 import {Themed} from "../types/styledComponentTypes";
 import {useSelector} from "react-redux";
 import {themeSelector} from "../store/selectors";

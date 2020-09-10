@@ -18,14 +18,21 @@ import {Home} from "./screens/Home";
 import {Options} from "./screens/Options";
 import {Themes} from "./screens/Themes";
 import {loadTheme} from "./store/reducersAndActions/theme";
-import {MainStackParamsList, ModalStackParamsList} from "./types/types";
+import {
+  MainStackParamsList,
+  ModalStackParamsList,
+  AuthStackParamsList
+} from "./types/types";
+import {LoginScreen} from "./screens/Login";
 
 /**
  * @format
  *
  */
+// Creating stacks
 const MainStack = createStackNavigator<MainStackParamsList>();
 const ModalStack = createStackNavigator<ModalStackParamsList>();
+const AuthStack = createStackNavigator<AuthStackParamsList>();
 
 const MainStackScreen = () => (
   <MainStack.Navigator>
@@ -84,6 +91,16 @@ const ModalStackScreen = () => (
   </ModalStack.Navigator>
 );
 
+const AuthStackScreen = () => (
+  <AuthStack.Navigator>
+    <AuthStack.Screen
+      name="LoginScreen"
+      component={LoginScreen}
+      options={{headerShown: false}}
+    />
+  </AuthStack.Navigator>
+);
+
 const Navigation = () => {
   const dispatch = useDispatch();
   // Hide the splash screen when application is ready
@@ -94,7 +111,7 @@ const Navigation = () => {
 
   return (
     <NavigationContainer>
-      <ModalStackScreen />
+      <AuthStackScreen />
     </NavigationContainer>
   );
 };

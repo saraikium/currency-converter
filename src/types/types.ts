@@ -15,6 +15,11 @@ export type ModalStackParamsList = {
   CurrencyList: CurrencyListProps;
 };
 
+export type AuthStackParamsList = {
+  Modal: undefined;
+  LoginScreen: undefined;
+};
+
 export interface ICommonProps {
   baseCurrency: string;
   quoteCurrency: string;

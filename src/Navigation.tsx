@@ -5,6 +5,7 @@ import {TouchableOpacity} from "react-native";
 import SplashScreen from "react-native-splash-screen";
 import Entypo from "react-native-vector-icons/Entypo";
 import {useDispatch, useSelector} from "react-redux";
+import {ThemeProvider} from "styled-components/native";
 
 import {NavigationContainer} from "@react-navigation/native";
 import {
@@ -15,17 +16,17 @@ import {
 import colors from "./constants/themes";
 import {CurrencyList} from "./screens/CurrencyList";
 import {Home} from "./screens/Home";
+import {LoginScreen} from "./screens/Login";
 import {Options} from "./screens/Options";
 import {Themes} from "./screens/Themes";
-import {loadTheme} from "./store/reducersAndActions/theme";
-import {
-  MainStackParamsList,
-  ModalStackParamsList,
-  AuthStackParamsList
-} from "./types/types";
-import {LoginScreen} from "./screens/Login";
-import {userSelector} from "./store/selectors";
 import {loadUser} from "./store/reducersAndActions/auth";
+import {loadTheme} from "./store/reducersAndActions/theme";
+import {themeSelector, userSelector} from "./store/selectors";
+import {
+  AuthStackParamsList,
+  MainStackParamsList,
+  ModalStackParamsList
+} from "./types/types";
 
 /**
  * @format
@@ -106,7 +107,7 @@ const AuthStackScreen = () => (
 const Navigation = () => {
   const dispatch = useDispatch();
   const user = useSelector(userSelector);
-  console.log(user);
+  const theme = useSelector(themeSelector);
   // Hide the splash screen when application is ready
   useEffect(() => {
     SplashScreen.hide();
@@ -115,9 +116,11 @@ const Navigation = () => {
   }, []);
 
   return (
-    <NavigationContainer>
-      {user ? <ModalStackScreen /> : <AuthStackScreen />}
-    </NavigationContainer>
+    <ThemeProvider theme={theme}>
+      <NavigationContainer>
+        {user ? <ModalStackScreen /> : <AuthStackScreen />}
+      </NavigationContainer>
+    </ThemeProvider>
   );
 };
 

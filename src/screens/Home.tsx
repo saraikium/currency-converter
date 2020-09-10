@@ -51,9 +51,8 @@ export const Home = ({navigation}: IProps) => {
   const [conversionRate, setConversionRate] = useState(1);
 
   // Access the global state
-
-  const dispatch = useDispatch();
   const theme = useSelector(themeSelector);
+  const dispatch = useDispatch();
   const {quoteCurrency, baseCurrency, rates, date} = useSelector(
     currencySelector
   );
@@ -80,60 +79,56 @@ export const Home = ({navigation}: IProps) => {
   }, [quoteCurrency, baseCurrency, rates]);
 
   return (
-    <ThemeProvider theme={theme}>
-      <StyledSafeAreaView>
-        <KeyboardAwareScrollView>
-          <StatusBar
-            barStyle="light-content"
-            backgroundColor={theme.themeColor}
+    <StyledSafeAreaView>
+      <KeyboardAwareScrollView>
+        <StatusBar
+          barStyle="light-content"
+          backgroundColor={theme.themeColor}
+        />
+        <OptionsContainer>
+          <TouchableOpacity onPress={() => navigation.navigate("Options")}>
+            <Entypo name="cog" size={32} color={colors.white} />
+          </TouchableOpacity>
+        </OptionsContainer>
+        <Logo />
+        <HeaderText>Currency Converter</HeaderText>
+        <InputContainer>
+          <CurrencyInput
+            value={currencyValue}
+            currency={baseCurrency}
+            onChangeText={(text) => {
+              const value = parseFloat(text);
+              setCurrencyValue(value ? value.toString() : "0");
+            }}
+            keyboardType="numeric"
+            onChangeCurrency={() => {
+              navigation.push("CurrencyList", {
+                title: "Base Currency",
+                isBaseCurrency: true
+              });
+            }}
           />
-          <OptionsContainer>
-            <TouchableOpacity onPress={() => navigation.navigate("Options")}>
-              <Entypo name="cog" size={32} color={colors.white} />
-            </TouchableOpacity>
-          </OptionsContainer>
-          <Logo />
-          <HeaderText>Currency Converter</HeaderText>
-          <InputContainer>
-            <CurrencyInput
-              value={currencyValue}
-              currency={baseCurrency}
-              onChangeText={(text) => {
-                const value = parseFloat(text);
-                setCurrencyValue(value ? value.toString() : "0");
-              }}
-              keyboardType="numeric"
-              onChangeCurrency={() => {
-                navigation.push("CurrencyList", {
-                  title: "Base Currency",
-                  isBaseCurrency: true
-                });
-              }}
-            />
-            <CurrencyInput
-              value={`${(parseFloat(currencyValue) * conversionRate).toFixed(
-                2
-              )}`}
-              currency={quoteCurrency}
-              disabled
-              keyboardType="numeric"
-              onChangeCurrency={() => {
-                navigation.push("CurrencyList", {
-                  title: "Quote Currency",
-                  isBaseCurrency: false
-                });
-              }}
-            />
-          </InputContainer>
-          <RegularText fontSize="14px" color={colors.white}>
-            {`1 ${baseCurrency} = ${conversionRate} ${quoteCurrency} as of ${format(
-              date,
-              "MMM do, yyyy"
-            )}`}
-          </RegularText>
-          <Button text="Reverse Currencies" onPress={swapCurrencies} />
-        </KeyboardAwareScrollView>
-      </StyledSafeAreaView>
-    </ThemeProvider>
+          <CurrencyInput
+            value={`${(parseFloat(currencyValue) * conversionRate).toFixed(2)}`}
+            currency={quoteCurrency}
+            disabled
+            keyboardType="numeric"
+            onChangeCurrency={() => {
+              navigation.push("CurrencyList", {
+                title: "Quote Currency",
+                isBaseCurrency: false
+              });
+            }}
+          />
+        </InputContainer>
+        <RegularText fontSize="14px" color={colors.white}>
+          {`1 ${baseCurrency} = ${conversionRate} ${quoteCurrency} as of ${format(
+            date,
+            "MMM do, yyyy"
+          )}`}
+        </RegularText>
+        <Button text="Reverse Currencies" onPress={swapCurrencies} />
+      </KeyboardAwareScrollView>
+    </StyledSafeAreaView>
   );
 };

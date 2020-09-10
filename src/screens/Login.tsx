@@ -77,60 +77,58 @@ export const LoginScreen: React.FC = () => {
   const dispatch = useDispatch();
 
   return (
-    <ThemeProvider theme={theme}>
-      <StyledSafeAreaView>
-        <KeyboardAwareScrollView>
-          <StatusBar
-            barStyle="light-content"
-            backgroundColor={theme.themeColor}
-          />
-          <Logo />
-          <FormContainer>
-            <BoldText color={theme.white} fontSize="24px">
-              Login to Continue
-            </BoldText>
-            <Formik
-              validationSchema={validationSchema}
-              initialValues={{email: "", password: ""}}
-              onSubmit={(values) => {
-                dispatch(requestLogin(values));
-              }}
-            >
-              {({handleChange, handleSubmit, handleBlur, values}) => (
-                <View>
-                  <InputContainer>
-                    <StyledTextInput
-                      keyboardType="email-address"
-                      onChangeText={handleChange("email")}
-                      onBlur={handleBlur("email")}
-                      value={values.email}
-                      placeholder="Enter you email.."
-                    />
-                  </InputContainer>
-                  <ErrorMessage name="email" component={ErrorText} />
-                  <InputContainer>
-                    <StyledTextInput
-                      secureTextEntry={true}
-                      onChangeText={handleChange("password")}
-                      onBlur={handleBlur("password")}
-                      value={values.password}
-                      placeholder="Enter password..."
-                    />
-                  </InputContainer>
-                  <ErrorMessage name="password" component={ErrorText} />
-                  <ButtonContainer>
-                    <Button onPress={handleSubmit}>
-                      <BoldText color={theme.themeColor} fontSize="20px">
-                        Login
-                      </BoldText>
-                    </Button>
-                  </ButtonContainer>
-                </View>
-              )}
-            </Formik>
-          </FormContainer>
-        </KeyboardAwareScrollView>
-      </StyledSafeAreaView>
-    </ThemeProvider>
+    <StyledSafeAreaView>
+      <KeyboardAwareScrollView>
+        <StatusBar
+          barStyle="light-content"
+          backgroundColor={theme.themeColor}
+        />
+        <Logo />
+        <FormContainer>
+          <BoldText color={theme.white} fontSize="24px">
+            Login to Continue
+          </BoldText>
+          <Formik
+            validationSchema={validationSchema}
+            initialValues={{email: "", password: ""}}
+            onSubmit={(values) => {
+              dispatch(requestLogin(values));
+            }}
+          >
+            {({handleChange, handleSubmit, handleBlur, values}) => (
+              <View>
+                <InputContainer>
+                  <StyledTextInput
+                    keyboardType="email-address"
+                    onChangeText={handleChange("email")}
+                    onBlur={handleBlur("email")}
+                    value={values.email}
+                    placeholder="Enter you email.."
+                  />
+                </InputContainer>
+                <ErrorMessage name="email" component={ErrorText} />
+                <InputContainer>
+                  <StyledTextInput
+                    secureTextEntry={true}
+                    onChangeText={handleChange("password")}
+                    onBlur={handleBlur("password")}
+                    value={values.password}
+                    placeholder="Enter password..."
+                  />
+                </InputContainer>
+                <ErrorMessage name="password" component={ErrorText} />
+                <ButtonContainer>
+                  <Button onPress={handleSubmit}>
+                    <BoldText color={theme.themeColor} fontSize="20px">
+                      Login
+                    </BoldText>
+                  </Button>
+                </ButtonContainer>
+              </View>
+            )}
+          </Formik>
+        </FormContainer>
+      </KeyboardAwareScrollView>
+    </StyledSafeAreaView>
   );
 };

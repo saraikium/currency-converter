@@ -30,21 +30,19 @@ export const Themes: React.FC = () => {
   const theme = useSelector(themeSelector);
 
   return (
-    <ThemeProvider theme={theme}>
-      <FlatList
-        data={themes}
-        keyExtractor={(item) => item.color}
-        renderItem={({item}) => (
-          <RowItem
-            title={item.name}
-            onPress={() => {
-              dispatch(changeTheme(item.name.toLocaleLowerCase() as ThemeName));
-            }}
-            rightIcon={<Preview color={item.color} />}
-          />
-        )}
-        ItemSeparatorComponent={() => <Separator />}
-      />
-    </ThemeProvider>
+    <FlatList
+      data={themes}
+      keyExtractor={(item) => item.color}
+      renderItem={({item}) => (
+        <RowItem
+          title={item.name}
+          onPress={() => {
+            dispatch(changeTheme(item.name.toLocaleLowerCase() as ThemeName));
+          }}
+          rightIcon={<Preview color={item.color} />}
+        />
+      )}
+      ItemSeparatorComponent={() => <Separator />}
+    />
   );
 };

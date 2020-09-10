@@ -66,6 +66,7 @@ export const Home = ({navigation}: IProps) => {
     dispatch(setCurrencies(currencyList));
   }, [quoteCurrency, baseCurrency, rates, dispatch]);
 
+  // getRates from internet
   useEffect(() => {
     dispatch(startRatesRequest(baseCurrency));
   }, []);

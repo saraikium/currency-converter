@@ -27,6 +27,7 @@ import {
   MainStackParamsList,
   ModalStackParamsList
 } from "./types/types";
+import {loadCurrencyState} from "./store/reducersAndActions/currency";
 
 /**
  * @format
@@ -113,6 +114,7 @@ const Navigation = () => {
     SplashScreen.hide();
     dispatch(loadUser());
     dispatch(loadTheme());
+    dispatch(loadCurrencyState());
   }, []);
 
   return (

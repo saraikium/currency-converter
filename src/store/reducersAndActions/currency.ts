@@ -7,8 +7,15 @@ import {
   IRates,
   RATES_REQUEST_START,
   SET_CURRENCIES,
-  SET_DATE
+  SET_DATE,
+  SET_DEFAULT_STATE_FROM_STORAGE,
+  ILoadCurrencyStateAction,
+  LOAD_CURRENCY_FROM_STORAGE,
+  ISetCurrencyStateAction
 } from "../types/currency";
+import {Alert} from "react-native";
+import AsyncStorage from "@react-native-community/async-storage";
+import currencies from "../../data/currencies";
 
 //Action creators
 export const setBaseCurrency = (currency: string): CurrencyActionTypes => ({
@@ -31,9 +38,9 @@ export const completeRatesRequest = (rates: IRates): CurrencyActionTypes => ({
   payload: rates
 });
 
-export const setCurrencies = (currencies: string[]): CurrencyActionTypes => ({
+export const setCurrencies = (currencyList: string[]): CurrencyActionTypes => ({
   type: SET_CURRENCIES,
-  payload: currencies
+  payload: currencyList
 });
 
 export const setDate = (date: Date): CurrencyActionTypes => ({
@@ -41,10 +48,44 @@ export const setDate = (date: Date): CurrencyActionTypes => ({
   payload: date
 });
 
+export const loadCurrencyState = (): ILoadCurrencyStateAction => ({
+  type: LOAD_CURRENCY_FROM_STORAGE
+});
+
+export const setCurrencyStateFromStorage = (
+  state: ICurrencyState
+): ISetCurrencyStateAction => ({
+  type: SET_DEFAULT_STATE_FROM_STORAGE,
+  payload: state
+});
+
+// storage functions
+const key = "currency_state";
+
+export const saveCurrencyStateToStorage = async (
+  currencyState: ICurrencyState
+) => {
+  try {
+    await AsyncStorage.setItem(key, JSON.stringify(currencyState));
+  } catch (error) {
+    Alert.alert(error);
+  }
+};
+
+export const loadCurrencyStateFromStorage = async (): Promise<ICurrencyState | null> => {
+  try {
+    const currencyState = await AsyncStorage.getItem(key);
+    if (currencyState) return JSON.parse(currencyState) as ICurrencyState;
+    return null;
+  } catch (error) {
+    Alert.alert(error);
+  }
+};
+
 // default state
 const defaultState: ICurrencyState = {
   conversionRate: 1,
-  currencies: [],
+  currencies: currencies,
   baseCurrency: "USD",
   quoteCurrency: "GBP",
   date: new Date(),
@@ -59,6 +100,8 @@ export const currencyReducer = (
   action: CurrencyActionTypes
 ): ICurrencyState => {
   switch (action.type) {
+    case SET_DEFAULT_STATE_FROM_STORAGE:
+      return action.payload;
     case SET_BASE_CURRENCY:
       return {...state, baseCurrency: action.payload};
     case SET_DATE:

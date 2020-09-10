@@ -39,6 +39,7 @@ interface IProps {
   route: RouteProp<ModalStackParamsList, "CurrencyList">;
 }
 
+// Returns the Checked Icon if currency is selected
 const getIcon = (selected: boolean) =>
   selected ? (
     <Icon>

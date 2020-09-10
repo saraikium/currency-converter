@@ -1,7 +1,7 @@
 import {all} from "redux-saga/effects";
 
 import {loginUserWatcher, loadUserFromStorageWatcher} from "./auth";
-import {getLatestRatesWatcher} from "./currency";
+import {getLatestRatesWatcher, loadRatesFromStorageWatcher} from "./currency";
 import {changeThemeWatcher, loadThemeWatcher} from "./themes";
 
 export function* rootSaga() {
@@ -10,6 +10,7 @@ export function* rootSaga() {
     changeThemeWatcher(),
     loadThemeWatcher(),
     loginUserWatcher(),
-    loadUserFromStorageWatcher()
+    loadUserFromStorageWatcher(),
+    loadRatesFromStorageWatcher()
   ]);
 }

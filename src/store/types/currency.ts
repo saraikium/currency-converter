@@ -5,7 +5,8 @@ export const RATES_REQUEST_START = "REQUEST_CONVERSION_RATES";
 export const RATES_REQUEST_COMPLETE = "CONVERSION_RATES_REQUEST_COMPLETE";
 export const SET_CURRENCIES = "SET_CURRENCIES";
 export const SET_DATE = "SET_DATE";
-
+export const LOAD_CURRENCY_FROM_STORAGE = "LOAD_CURRENCY_FROM_STORAGE";
+export const SET_DEFAULT_STATE_FROM_STORAGE = "SET_DEFAULT_STATE_FROM_STORAGE";
 // Interfaces
 export interface IRates {
   [key: string]: number;
@@ -45,9 +46,19 @@ export interface ISetDateAction {
   payload: Date;
 }
 
+export interface ILoadCurrencyStateAction {
+  type: typeof LOAD_CURRENCY_FROM_STORAGE;
+}
+
+export interface ISetCurrencyStateAction {
+  type: typeof SET_DEFAULT_STATE_FROM_STORAGE;
+  payload: ICurrencyState;
+}
+
 export type CurrencyActionTypes =
   | ISetCurrencyAction
   | ICompleteRatesRequestAction
   | IStartRatesRequestAction
   | ISetCurreciesAction
-  | ISetDateAction;
+  | ISetDateAction
+  | ISetCurrencyStateAction;

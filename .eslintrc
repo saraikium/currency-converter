@@ -26,6 +26,7 @@
         "extensions": [".jsx", ".tsx"]
       }
     ],
+    "no-undef": "off",
     "@typescript-eslint/no-unused-vars": "off",
     "@typescript-eslint/no-unused-vars-experimental": "warn",
     "react-hooks/exhaustive-deps": "warn"

@@ -1,12 +1,12 @@
 import React from "react";
 import {TextInputProps} from "react-native";
-import styled from "styled-components/native";
-import {BoldText, Input} from "./styledComponents/StyledComponents";
-
-import colors from "../constants/themes";
-import {Themed} from "../types/styledComponentTypes";
 import {useSelector} from "react-redux";
+import styled from "styled-components/native";
+
+import {Input, InputContainer} from "../components/styledComponents";
 import {themeSelector} from "../store/selectors";
+import {Themed} from "../types/styledComponentTypes";
+import {TextBold} from "./styledComponents";
 
 const InputButton = styled.TouchableOpacity<Themed>`
   background-color: ${(props) => props.theme.white};
@@ -15,19 +15,6 @@ const InputButton = styled.TouchableOpacity<Themed>`
   border-top-left-radius: 5px;
   border-bottom-left-radius: 5px;
   border-right-width: 1px;
-`;
-
-interface IContainerProps {
-  disabled: boolean;
-}
-// eslint-disable-next-line no-undef
-const InputContainer = styled.View<IContainerProps>`
-  border-radius: 5px;
-  flex-direction: row;
-  justify-content: flex-start;
-  margin: 10px 20px;
-  background-color: ${({disabled}) =>
-    disabled ? colors.offWhite : colors.white};
 `;
 
 interface ICurrencyInputProps extends TextInputProps {
@@ -47,7 +34,7 @@ export const CurrencyInput = ({
   return (
     <InputContainer disabled={disabled}>
       <InputButton onPress={onChangeCurrency}>
-        <BoldText color={theme.themeColor}>{currency}</BoldText>
+        <TextBold color={theme.themeColor}>{currency}</TextBold>
       </InputButton>
       <Input editable={!disabled} {...props} />
     </InputContainer>

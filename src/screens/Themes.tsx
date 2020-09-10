@@ -4,7 +4,7 @@ import {useDispatch} from "react-redux";
 import styled from "styled-components/native";
 
 import {RowItem} from "../components/RowItem";
-import {Separator} from "../components/styledComponents/StyledComponents";
+import {Separator} from "../components/styledComponents/Misc";
 import {changeTheme} from "../store/reducersAndActions/theme";
 import {ThemeName} from "../store/types/theme";
 
@@ -16,7 +16,7 @@ const themes = [
 ];
 
 type PreviewProps = {color: string};
-// eslint-disable-next-line no-undef
+
 const Preview = styled.View<PreviewProps>`
   width: 30px;
   height: 30px;

@@ -8,7 +8,7 @@ import {RowItem} from "../components/RowItem";
 import {
   Separator,
   StyledSafeAreaView
-} from "../components/styledComponents/StyledComponents";
+} from "../components/styledComponents/Misc";
 import {themeSelector} from "../store/selectors";
 import {MainStackParamsList} from "../types/types";
 

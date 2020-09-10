@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components/native";
-import {RegularText} from "./styledComponents/StyledComponents";
+import {StyledText} from "./styledComponents/Misc";
 import {Themed} from "../types/styledComponentTypes";
 import {useSelector} from "react-redux";
 import {themeSelector} from "../store/selectors";
@@ -23,7 +23,7 @@ export const RowItem = ({title, onPress, rightIcon}: IProps) => {
   const theme = useSelector(themeSelector);
   return (
     <Row onPress={onPress}>
-      <RegularText color={theme.themeColor}>{title}</RegularText>
+      <StyledText color={theme.themeColor}>{title}</StyledText>
       {rightIcon}
     </Row>
   );

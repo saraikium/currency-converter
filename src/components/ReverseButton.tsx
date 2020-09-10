@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components/native";
-import {BoldText} from "./styledComponents/StyledComponents";
+import {TextBold} from "./styledComponents";
 import colors from "../constants/themes";
 import reverseIcon from "../assets/images/reverse.png";
 
@@ -23,11 +23,11 @@ interface ButtonProps {
   onPress(): void;
 }
 
-export const Button = ({onPress, text}: ButtonProps) => {
+export const ReverseButton = ({onPress, text}: ButtonProps) => {
   return (
     <StyledButton onPress={onPress}>
       <ButtonIcon source={reverseIcon} resizeMode="contain" />
-      <BoldText color={colors.white}>{text}</BoldText>
+      <TextBold color={colors.white}>{text}</TextBold>
     </StyledButton>
   );
 };

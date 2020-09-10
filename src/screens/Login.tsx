@@ -8,7 +8,7 @@ import * as Yup from "yup";
 import {requestLogin} from "../store/reducersAndActions/auth";
 import {KeyboardAwareScrollView} from "../components/KeyboardAwareScrollView";
 import {Logo} from "../components/Logo";
-import {BoldText} from "../components/styledComponents/StyledComponents";
+import {TextBold} from "../components/styledComponents";
 import {themeSelector} from "../store/selectors";
 import {Themed} from "../types/styledComponentTypes";
 
@@ -85,9 +85,9 @@ export const LoginScreen: React.FC = () => {
         />
         <Logo />
         <FormContainer>
-          <BoldText color={theme.white} fontSize="24px">
+          <TextBold color={theme.white} fontSize="24px">
             Login to Continue
-          </BoldText>
+          </TextBold>
           <Formik
             validationSchema={validationSchema}
             initialValues={{email: "", password: ""}}
@@ -119,9 +119,9 @@ export const LoginScreen: React.FC = () => {
                 <ErrorMessage name="password" component={ErrorText} />
                 <ButtonContainer>
                   <Button onPress={handleSubmit}>
-                    <BoldText color={theme.themeColor} fontSize="20px">
+                    <TextBold color={theme.themeColor} fontSize="20px">
                       Login
-                    </BoldText>
+                    </TextBold>
                   </Button>
                 </ButtonContainer>
               </View>

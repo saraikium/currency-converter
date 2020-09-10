@@ -6,14 +6,11 @@ import {useDispatch, useSelector} from "react-redux";
 import styled from "styled-components/native";
 import {StackNavigationProp} from "@react-navigation/stack";
 
-import {Button} from "../components/Button";
+import {ReverseButton} from "../components/ReverseButton";
 import {CurrencyInput} from "../components/CurrencyInput";
 import {KeyboardAwareScrollView} from "../components/KeyboardAwareScrollView";
 import {Logo} from "../components/Logo";
-import {
-  HeaderText,
-  RegularText
-} from "../components/styledComponents/StyledComponents";
+import {Heading, StyledText} from "../components/styledComponents";
 import colors from "../constants/themes";
 import {
   setBaseCurrency,
@@ -92,7 +89,7 @@ export const Home = ({navigation}: IProps) => {
           </TouchableOpacity>
         </OptionsContainer>
         <Logo />
-        <HeaderText>Currency Converter</HeaderText>
+        <Heading>Currency Converter</Heading>
         <InputContainer>
           <CurrencyInput
             value={currencyValue}
@@ -122,13 +119,13 @@ export const Home = ({navigation}: IProps) => {
             }}
           />
         </InputContainer>
-        <RegularText fontSize="14px" color={colors.white}>
+        <StyledText fontSize="14px" color={colors.white}>
           {`1 ${baseCurrency} = ${conversionRate} ${quoteCurrency} as of ${format(
             date,
             "MMM do, yyyy"
           )}`}
-        </RegularText>
-        <Button text="Reverse Currencies" onPress={swapCurrencies} />
+        </StyledText>
+        <ReverseButton text="Reverse Currencies" onPress={swapCurrencies} />
       </KeyboardAwareScrollView>
     </StyledSafeAreaView>
   );

@@ -1,7 +1,8 @@
 import React from "react";
 import {Alert, Linking, ScrollView, StatusBar} from "react-native";
 import Entypo from "react-native-vector-icons/Entypo";
-import {useSelector, useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
+
 import {StackNavigationProp} from "@react-navigation/stack";
 
 import {RowItem} from "../components/RowItem";
@@ -9,9 +10,9 @@ import {
   Separator,
   StyledSafeAreaView
 } from "../components/styledComponents/Misc";
+import {requestUserLogout} from "../store/reducersAndActions/auth";
 import {themeSelector} from "../store/selectors";
 import {MainStackParamsList} from "../types/types";
-import {logoutUser} from "../store/reducersAndActions/auth";
 
 const openLink = (url: string) =>
   Linking.openURL(url).catch(() =>
@@ -48,7 +49,7 @@ export const Options = ({navigation}: Props) => {
         <RowItem
           title="Logout"
           onPress={() => {
-            dispatch(logoutUser());
+            dispatch(requestUserLogout());
           }}
           rightIcon={<Entypo name="back" size={20} color={theme.themeColor} />}
         />

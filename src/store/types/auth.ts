@@ -2,6 +2,7 @@ export const REQUEST_USER_LOGIN = "REQUEST_USER_LOGIN";
 export const USER_LOGIN = "COUSER_LOGIN";
 export const USER_LOGOUT = "USER_LOGOUT";
 export const LOAD_USER_FROM_STORAGE = "LOAD_USER_FROM_STORAGE";
+export const REQUEST_USER_LOGOUT = "USER_LOGOU_REQUEST";
 
 export interface IUser {
   email: string;
@@ -16,6 +17,10 @@ export interface IRequestUserLoginAction {
 export interface IUserLoginAction {
   type: typeof USER_LOGIN;
   payload: IUser;
+}
+
+export interface IUserLogoutRequestAction {
+  type: typeof REQUEST_USER_LOGOUT;
 }
 
 export interface IUserLogoutAction {

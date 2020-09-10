@@ -27,7 +27,6 @@ const Preview = styled.View<PreviewProps>`
 
 export const Themes: React.FC = () => {
   const dispatch = useDispatch();
-  const theme = useSelector(themeSelector);
 
   return (
     <FlatList

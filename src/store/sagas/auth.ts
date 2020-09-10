@@ -12,7 +12,7 @@ import {
   IRequestUserLoginAction,
   LOAD_USER_FROM_STORAGE,
   REQUEST_USER_LOGIN,
-  USER_LOGOUT_REQUEST
+  REQUEST_USER_LOGOUT
 } from "../types/auth";
 
 function* signinUser(action: IRequestUserLoginAction) {
@@ -40,5 +40,5 @@ export function* loadUserFromStorageWatcher() {
 }
 
 export function* logUserOutWatcher() {
-  yield takeLatest(USER_LOGOUT_REQUEST, logUserOut);
+  yield takeLatest(REQUEST_USER_LOGOUT, logUserOut);
 }
